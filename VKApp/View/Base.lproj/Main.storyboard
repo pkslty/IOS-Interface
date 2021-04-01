@@ -16,30 +16,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PVA-BK-udm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PVA-BK-udm">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VVG-Uo-eNR" userLabel="ContentView">
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VVG-Uo-eNR" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlp-fF-gZR">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlp-fF-gZR">
                                                 <rect key="frame" x="161.5" y="204.5" width="91" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2IL-Vd-fqs">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2IL-Vd-fqs">
                                                 <rect key="frame" x="164.5" y="302.5" width="85" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bai-4o-j0Z">
+                                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bai-4o-j0Z">
                                                 <rect key="frame" x="103.5" y="248.5" width="207" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" textContentType="username"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkW-0J-Bhn">
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkW-0J-Bhn">
                                                 <rect key="frame" x="170" y="400.5" width="74" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                 <state key="normal" title="Log In"/>
@@ -57,21 +57,20 @@
                                             <constraint firstItem="2IL-Vd-fqs" firstAttribute="top" secondItem="Bai-4o-j0Z" secondAttribute="bottom" constant="20" id="oDr-BG-DTn"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-r6-Udm">
+                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-r6-Udm">
                                         <rect key="frame" x="103.5" y="346.5" width="207" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="password"/>
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="top" secondItem="Vg6-dj-elf" secondAttribute="top" id="4ZR-nL-4fW"/>
                                     <constraint firstItem="VVG-Uo-eNR" firstAttribute="leading" secondItem="PVA-BK-udm" secondAttribute="leading" id="7cB-xa-hyM"/>
                                     <constraint firstItem="nlp-fF-gZR" firstAttribute="top" secondItem="VVG-Uo-eNR" secondAttribute="bottom" multiplier="0.25" id="ETp-Ga-gdS"/>
                                     <constraint firstItem="zkW-0J-Bhn" firstAttribute="top" secondItem="AMa-r6-Udm" secondAttribute="bottom" constant="20" id="IiY-Q0-Oso"/>
                                     <constraint firstItem="VNe-Uo-h8e" firstAttribute="trailing" secondItem="VVG-Uo-eNR" secondAttribute="trailing" id="NhD-uO-45Y"/>
-                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="top" secondItem="VNe-Uo-h8e" secondAttribute="top" id="SDh-s8-emU"/>
-                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="trailing" secondItem="Vg6-dj-elf" secondAttribute="trailing" id="dQa-PL-1gk"/>
-                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="bottom" secondItem="VNe-Uo-h8e" secondAttribute="bottom" id="g1W-fl-Y2A"/>
+                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="top" secondItem="PVA-BK-udm" secondAttribute="top" id="RpR-ki-Ups"/>
+                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="trailing" secondItem="PVA-BK-udm" secondAttribute="trailing" id="dQa-PL-1gk"/>
+                                    <constraint firstItem="VVG-Uo-eNR" firstAttribute="bottom" secondItem="PVA-BK-udm" secondAttribute="bottom" id="g1W-fl-Y2A"/>
                                     <constraint firstItem="AMa-r6-Udm" firstAttribute="trailing" secondItem="VVG-Uo-eNR" secondAttribute="trailing" multiplier="0.75" id="hBl-3L-yUz"/>
                                     <constraint firstItem="VVG-Uo-eNR" firstAttribute="leading" secondItem="VNe-Uo-h8e" secondAttribute="leading" id="qE3-xh-Equ"/>
                                     <constraint firstItem="VVG-Uo-eNR" firstAttribute="bottom" secondItem="Vg6-dj-elf" secondAttribute="bottom" id="vBv-om-eYL"/>

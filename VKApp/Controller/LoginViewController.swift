@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kbSize.height - view.safeAreaInsets.bottom, right: 0.0)
             
     // Добавляем отступ внизу UIScrollView, равный размеру клавиатуры
-        self.loginScrollView.contentInset = contentInsets
+        loginScrollView.contentInset = contentInsets
         loginScrollView.scrollIndicatorInsets = contentInsets
     }
         
