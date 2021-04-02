@@ -20,17 +20,17 @@ class LoginViewController: UIViewController {
 
     }
     
-    @objc func hideKeyboerd() {
+    @objc func hideKeyboard() {
         loginScrollView.endEditing(true)
     }
     
     @objc func showHidePassword() {
         if password.isSecureTextEntry {
             password.isSecureTextEntry = false
-            eyeButton?.tintColor = .systemBlue
+            eyeButton?.setImage(UIImage(systemName: "eye"), for: .normal)
         } else {
             password.isSecureTextEntry = true
-            eyeButton?.tintColor = .green
+            eyeButton?.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         }
     }
     
@@ -41,23 +41,35 @@ class LoginViewController: UIViewController {
               username == "dnk",
               password == "12345"
         else {
+            let alertTitle = NSLocalizedString("Error", comment: "Error")
+            let alertMessage = NSLocalizedString("Wrong username or password", comment: "Wrong username or password")
+            let alertAction = NSLocalizedString("OK", comment: "Default action")
+            
+            let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: alertAction, style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+            }))
+            present(alert, animated: true)
             return false
         }
-            
+        self.username.text = ""
+        self.password.text = ""
+        hideKeyboard()
         return true
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let keyboardHideGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboerd))
+        let keyboardHideGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         loginScrollView.addGestureRecognizer(keyboardHideGesture)
         
         //Add eye button to show password
         let eyeButtonRect = CGRect(x: 0, y: 0, width: password.frame.height, height: password.frame.height)
         eyeButton = UIButton(frame: eyeButtonRect)
-        eyeButton?.tintColor = .green
-        eyeButton?.setImage(UIImage(systemName: "eye"), for: .normal)
+        eyeButton?.imageView?.tintColor = .gray
+        eyeButton?.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         password.rightView = eyeButton
         password.rightViewMode = UITextField.ViewMode.always
         //Add gesture recognizer for it
