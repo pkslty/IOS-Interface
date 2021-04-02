@@ -43,6 +43,10 @@
                                                 <rect key="frame" x="170" y="400.5" width="74" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                 <state key="normal" title="Log In"/>
+                                                <connections>
+                                                    <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nl2-j3-hE4"/>
+                                                    <segue destination="qgo-xU-Ceq" kind="presentation" identifier="showMainViewController" modalPresentationStyle="fullScreen" id="TLQ-sG-OZl"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -60,7 +64,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-r6-Udm">
                                         <rect key="frame" x="103.5" y="346.5" width="207" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -95,11 +99,29 @@
                     <connections>
                         <outlet property="loginContentView" destination="VVG-Uo-eNR" id="POz-8o-hM9"/>
                         <outlet property="loginScrollView" destination="PVA-BK-udm" id="j51-di-6Jo"/>
+                        <outlet property="password" destination="AMa-r6-Udm" id="F7G-hG-S8Q"/>
+                        <outlet property="username" destination="Bai-4o-j0Z" id="RuR-px-PPh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.840579710144929" y="93.75"/>
+            <point key="canvasLocation" x="-780" y="-75"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="B69-AF-hSJ">
+            <objects>
+                <viewController id="qgo-xU-Ceq" customClass="MainViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7L2-eP-dkg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="NRu-ZU-u2V"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="69h-5r-mWy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MZf-sR-f21" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="91" y="-75"/>
         </scene>
     </scenes>
     <resources>
