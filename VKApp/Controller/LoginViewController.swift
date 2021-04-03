@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CryptoKit
 
 class LoginViewController: UIViewController {
 
@@ -27,7 +28,7 @@ class LoginViewController: UIViewController {
         guard let username = username.text,
               let password = password.text,
               username == "dnk",
-              password == "12345"
+              MD5(string: password) == "827ccb0eea8a706c4c34a16891f84e7b"
         else {
             showLoginError()
             return false
@@ -129,6 +130,12 @@ class LoginViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    
+    private func MD5(string: String) -> String {
+        let digest = Insecure.MD5.hash(data: string.data(using: .utf8) ?? Data())
+
+        return digest.map {
+            String(format: "%02hhx", $0)
+        }.joined()
+    }
 }
 
