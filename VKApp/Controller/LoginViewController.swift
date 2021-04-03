@@ -9,31 +9,19 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    // MARK: - @IBOutlets
+    
     @IBOutlet weak var loginScrollView: UIScrollView!
     @IBOutlet weak var loginContentView: UIView!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
+    
+    // MARK: - Properties
+    
     var eyeButton: UIButton?
+    
+    // MARK: - Methods
         
-    @IBAction func loginPressed(_ sender: Any) {
-        
-
-    }
-    
-    @objc func hideKeyboard() {
-        loginScrollView.endEditing(true)
-    }
-    
-    @objc func showHidePassword() {
-        if password.isSecureTextEntry {
-            password.isSecureTextEntry = false
-            eyeButton?.setImage(UIImage(systemName: "eye"), for: .normal)
-        } else {
-            password.isSecureTextEntry = true
-            eyeButton?.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        }
-    }
-    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
  
         guard let username = username.text,
@@ -41,15 +29,7 @@ class LoginViewController: UIViewController {
               username == "dnk",
               password == "12345"
         else {
-            let alertTitle = NSLocalizedString("Error", comment: "Error")
-            let alertMessage = NSLocalizedString("Wrong username or password", comment: "Wrong username or password")
-            let alertAction = NSLocalizedString("OK", comment: "Default action")
-            
-            let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: alertAction, style: .default, handler: { _ in
-            NSLog("The \"OK\" alert occured.")
-            }))
-            present(alert, animated: true)
+            showLoginError()
             return false
         }
         self.username.text = ""
@@ -65,21 +45,19 @@ class LoginViewController: UIViewController {
         let keyboardHideGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         loginScrollView.addGestureRecognizer(keyboardHideGesture)
         
-        //Add eye button to show password
+        //Добавляем кнопку с глазом
         let eyeButtonRect = CGRect(x: 0, y: 0, width: password.frame.height, height: password.frame.height)
         eyeButton = UIButton(frame: eyeButtonRect)
         eyeButton?.imageView?.tintColor = .gray
         eyeButton?.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         password.rightView = eyeButton
         password.rightViewMode = UITextField.ViewMode.always
-        //Add gesture recognizer for it
         
-        
-        
+        //Добавлляем gesture recognizer для глаза
         let eyeTapGesture = UITapGestureRecognizer(target: self, action: #selector(showHidePassword))
         eyeButton?.addGestureRecognizer(eyeTapGesture)
-
     }
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -88,31 +66,69 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
         // Второе — когда она пропадает
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
+    }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
             
             NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
             NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
-    @objc func keyboardWasShown(notification: Notification) {
-            
-    // Получаем размер клавиатуры
+    }
+        
+    
+    // MARK: - Private methods
+    
+    //Увеличиваем размер ScrollView при появлении клавиатуры
+    @objc private func keyboardWasShown(notification: Notification) {
+        
         let info = notification.userInfo! as NSDictionary
         let kbSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as!   NSValue).cgRectValue.size
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kbSize.height - view.safeAreaInsets.bottom, right: 0.0)
-            
-    // Добавляем отступ внизу UIScrollView, равный размеру клавиатуры
+        
         loginScrollView.contentInset = contentInsets
         loginScrollView.scrollIndicatorInsets = contentInsets
     }
-        
-        //Когда клавиатура исчезает
-    @objc func keyboardWillBeHidden(notification: Notification) {
+    
+    
+    //Уменьшаем обратно ScrollView при исчезновении клавиатуры
+    @objc private func keyboardWillBeHidden(notification: Notification) {
         // Устанавливаем отступ внизу UIScrollView, равный 0
         let contentInsets = UIEdgeInsets.zero
         loginScrollView.contentInset = contentInsets
     }
+    
+    
+    //Скрытие кдавиатуры
+    @objc private func hideKeyboard() {
+        loginScrollView.endEditing(true)
+    }
+    
+    
+    //Переключение вида поля ввода пароля с видимого на скрытый
+    @objc private func showHidePassword() {
+        if password.isSecureTextEntry {
+            password.isSecureTextEntry = false
+            eyeButton?.setImage(UIImage(systemName: "eye"), for: .normal)
+        } else {
+            password.isSecureTextEntry = true
+            eyeButton?.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        }
+    }
+    
+    
+    //Отображение алерта с ошибкой при неправильном логине или пароле
+    private func showLoginError() {
+        
+        let alertTitle = NSLocalizedString("Error", comment: "Error")
+        let alertMessage = NSLocalizedString("Wrong username or password", comment: "Wrong username or password")
+        let alertAction = NSLocalizedString("OK", comment: "Default action")
+        
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alertAction, style: .default))
+        present(alert, animated: true)
+    }
+    
+    
 }
 
