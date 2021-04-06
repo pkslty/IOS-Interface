@@ -17,31 +17,57 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
+    @IBAction func unwindAction(unwindSegue: UIStoryboardSegue) {
+        
+    }
+    
     // MARK: - Properties
     
     var eyeButton: UIButton?
+    var users = [User]()
+    var currentUser: Int?
     
     // MARK: - Methods
         
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
  
-        guard let username = username.text,
-              let password = password.text,
-              username == "dnk",
-              MD5(string: password) == "827ccb0eea8a706c4c34a16891f84e7b"
+        /*guard let username = self.username.text,
+              let password = self.password.text
         else {
             showLoginError()
             return false
         }
-        self.username.text = ""
-        self.password.text = ""
-        hideKeyboard()
+        
+        for (num, user) in users.enumerated() {
+            if user.login == username && user.password == MD5(string: password) {
+                //getFriends(ofUser: &users[num])
+                currentUser = num
+                self.username.text = ""
+                self.password.text = ""
+                hideKeyboard()
+                return true
+            }
+        }
+        showLoginError()
+        return false*/
+        currentUser = 1
         return true
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let tabBarController = segue.destination as? UITabBarController,
+           let navigationalController = tabBarController.viewControllers?.first as? UINavigationController,
+           let viewController = navigationalController.viewControllers.first as? FriendsTableViewController {
+                viewController.user = users[currentUser!]
+        }
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        users = getUsers()
         
         let keyboardHideGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         loginScrollView.addGestureRecognizer(keyboardHideGesture)
@@ -137,5 +163,16 @@ class LoginViewController: UIViewController {
             String(format: "%02hhx", $0)
         }.joined()
     }
+    
+    private func getUsers() -> [User] {
+        var users = [User]()
+        
+        users.append(User(name: "Denis", login: "dnk", password: "827ccb0eea8a706c4c34a16891f84e7b"))
+        users.append(User(name: "Admin", login: "admin", password: MD5(string: "12345678")))
+        users.append(User(name: "1", login: "1", password: MD5(string: "1")))
+        
+        return users
+    }
+    
 }
 
