@@ -70,20 +70,20 @@ class FriendsTableViewController: UITableViewController {
 
         user.friends.append(Person(name: "Alexey"))
                                    
-        user.friends[0].photos.append(UIImage(named: "man01")!)
-        user.friends[1].photos.append(UIImage(named: "man02")!)
-        user.friends[2].photos.append(UIImage(named: "man03")!)
-        user.friends[3].photos.append(UIImage(named: "woman01")!)
-        user.friends[4].photos.append(UIImage(named: "woman02")!)
-        user.friends[5].photos.append(UIImage(named: "man04")!)
-        user.friends[6].photos.append(UIImage(named: "man05")!)
+        user.friends[0].photos.append((UIImage(named: "man01")!, 0))
+        user.friends[1].photos.append((UIImage(named: "man02")!, 0))
+        user.friends[2].photos.append((UIImage(named: "man03")!, 0))
+        user.friends[3].photos.append((UIImage(named: "woman01")!, 0))
+        user.friends[4].photos.append((UIImage(named: "woman02")!, 0))
+        user.friends[5].photos.append((UIImage(named: "man04")!, 0))
+        user.friends[6].photos.append((UIImage(named: "man05")!, 0))
         
-        user.friends[1].photos.append(UIImage(named: "man01")!)
-        user.friends[1].photos.append(UIImage(named: "man03")!)
-        user.friends[1].photos.append(UIImage(named: "woman01")!)
-        user.friends[1].photos.append(UIImage(named: "woman02")!)
-        user.friends[1].photos.append(UIImage(named: "man04")!)
-        user.friends[1].photos.append(UIImage(named: "man05")!)
+        user.friends[1].photos.append((UIImage(named: "man01")!, 0))
+        user.friends[1].photos.append((UIImage(named: "man03")!, 0))
+        user.friends[1].photos.append((UIImage(named: "woman01")!, 0))
+        user.friends[1].photos.append((UIImage(named: "woman02")!, 0))
+        user.friends[1].photos.append((UIImage(named: "man04")!, 0))
+        user.friends[1].photos.append((UIImage(named: "man05")!, 0))
     }
 
 }
