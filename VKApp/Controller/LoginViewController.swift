@@ -83,6 +83,7 @@ class LoginViewController: UIViewController {
         //Добавлляем gesture recognizer для глаза
         let eyeTapGesture = UITapGestureRecognizer(target: self, action: #selector(showHidePassword))
         eyeButton?.addGestureRecognizer(eyeTapGesture)
+        
     }
    
     

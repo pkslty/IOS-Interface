@@ -13,6 +13,10 @@ class UserGroupCell: UITableViewCell {
     @IBOutlet weak var groupDescriptionText: UILabel!
     @IBOutlet weak var groupImage: UIImageView!
    
-
+    func config(name: String, avatar: UIImage, description: String) {
+        groupCellText.text = name
+        groupDescriptionText.text = description
+        groupImage.image = avatar
+    }
 
 }

@@ -33,13 +33,14 @@ class FriendsTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsTableCell", for: indexPath) as? FriendsTableCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsTableCell", for: indexPath) as? FriendsTableCell
+        else { return UITableViewCell()}
 
-        cell?.cellText.text = user?.friends[indexPath.row].name
-        cell?.avatarImage.image = user?.friends[indexPath.row].avatar ??
-            UIImage(systemName: "person.fill.questionmark.rtl")
+        cell.config(name: user?.friends[indexPath.row].name,
+                    avatar: user?.friends[indexPath.row].avatar ??
+                        UIImage(systemName: "person.fill.questionmark.rtl"))
 
-        return cell!
+        return cell
     }
     
 

@@ -42,12 +42,15 @@ class UserGroupsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserGroupCell", for: indexPath) as? UserGroupCell
-        cell?.groupCellText.text = groups[indexPath.row].name
-        cell?.groupDescriptionText.text = groups[indexPath.row].description
-        cell?.groupImage.image = groups[indexPath.row].avatar ?? UIImage(systemName: "person.3.fill")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserGroupCell", for: indexPath) as? UserGroupCell
+        
+        else { return UITableViewCell() }
+        
+        cell.config(name: groups[indexPath.row].name,
+                    avatar: (groups[indexPath.row].avatar ?? UIImage(systemName: "person.3.fill"))!,
+                     description: groups[indexPath.row].description)
 
-        return cell!
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3658BF062620286C0047E093 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3658BF052620286C0047E093 /* RoundShadowView.swift */; };
 		368485ED261BA62000CCCAF4 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */; };
 		368485F1261BA72E00CCCAF4 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */; };
 		368485F6261BAA7F00CCCAF4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485F5261BAA7F00CCCAF4 /* User.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3658BF052620286C0047E093 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
 		368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		368485F5261BAA7F00CCCAF4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				3699DEA0261CD45900989B46 /* AllGroupsViewController.swift */,
 				3694546E261CD78F00B60CF6 /* NewGroupCell.swift */,
 				3699DE9D261CD44300989B46 /* UserGroupsViewController.swift */,
+				3658BF052620286C0047E093 /* RoundShadowView.swift */,
 				36B7F6AF261C9E6900D1289D /* FriendPhoto.swift */,
 				36B7F6AB261C99EB00D1289D /* FriendView.swift */,
 				368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */,
@@ -216,6 +219,7 @@
 				368485F6261BAA7F00CCCAF4 /* User.swift in Sources */,
 				3699DEA5261CD4EF00989B46 /* Group.swift in Sources */,
 				36B7F6A9261C871200D1289D /* Post.swift in Sources */,
+				3658BF062620286C0047E093 /* RoundShadowView.swift in Sources */,
 				369631B3261500E100AC37C0 /* AppDelegate.swift in Sources */,
 				368485F9261BAB1F00CCCAF4 /* Person.swift in Sources */,
 				369631B5261500E100AC37C0 /* SceneDelegate.swift in Sources */,

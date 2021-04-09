@@ -118,39 +118,52 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendsTableCell" rowHeight="133" id="fvU-fu-rjF" customClass="FriendsTableCell" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="133"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendsTableCell" id="fvU-fu-rjF" customClass="FriendsTableCell" customModule="VKApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="77.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fvU-fu-rjF" id="MEi-1B-fku">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="133"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="77.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwA-ct-WwL">
-                                            <rect key="frame" x="18" y="0.0" width="346" height="123"/>
+                                            <rect key="frame" x="18" y="0.0" width="331" height="67.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ihL-fh-lJd">
-                                            <rect key="frame" x="354" y="0.0" width="55" height="55"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpZ-Zl-YB8" customClass="RoundShadowView" customModule="VKApp" customModuleProvider="target">
+                                            <rect key="frame" x="339" y="11" width="55" height="55"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="55" id="akA-N6-iXp"/>
-                                                <constraint firstAttribute="width" constant="55" id="yoI-qy-fS3"/>
+                                                <constraint firstAttribute="width" constant="55" id="bxf-Dq-CBm"/>
+                                                <constraint firstAttribute="width" secondItem="wpZ-Zl-YB8" secondAttribute="height" multiplier="1:1" id="fkX-Zz-Lnx"/>
                                             </constraints>
-                                        </imageView>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="radius">
+                                                    <real key="value" value="20"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="autoSizeForShadow" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                    <size key="value" width="10" height="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="GwA-ct-WwL" firstAttribute="top" secondItem="MEi-1B-fku" secondAttribute="top" id="0x8-vN-O39"/>
-                                        <constraint firstItem="ihL-fh-lJd" firstAttribute="top" secondItem="MEi-1B-fku" secondAttribute="top" id="9kh-xA-1Z6"/>
                                         <constraint firstAttribute="bottom" secondItem="GwA-ct-WwL" secondAttribute="bottom" constant="10" id="CI0-Az-TFh"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ihL-fh-lJd" secondAttribute="bottom" id="FeZ-3U-O9W"/>
-                                        <constraint firstAttribute="trailing" secondItem="ihL-fh-lJd" secondAttribute="trailing" constant="5" id="TEM-Wl-BTe"/>
-                                        <constraint firstItem="ihL-fh-lJd" firstAttribute="leading" secondItem="GwA-ct-WwL" secondAttribute="trailing" constant="-10" id="g0K-kD-jKr"/>
+                                        <constraint firstItem="wpZ-Zl-YB8" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="MEi-1B-fku" secondAttribute="bottomMargin" id="R21-DI-6EA"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="wpZ-Zl-YB8" secondAttribute="trailing" id="Wjj-OP-qQL"/>
+                                        <constraint firstItem="wpZ-Zl-YB8" firstAttribute="top" secondItem="MEi-1B-fku" secondAttribute="topMargin" id="ayI-ee-8Y2"/>
+                                        <constraint firstItem="wpZ-Zl-YB8" firstAttribute="leading" secondItem="GwA-ct-WwL" secondAttribute="trailing" constant="-10" id="e0v-JS-skL"/>
                                         <constraint firstItem="GwA-ct-WwL" firstAttribute="leading" secondItem="MEi-1B-fku" secondAttribute="leading" constant="18" id="jzM-sD-bym"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="avatarImage" destination="ihL-fh-lJd" id="9N8-gN-q6M"/>
+                                    <outlet property="avatarImage" destination="wpZ-Zl-YB8" id="Y2J-Mz-Lfn"/>
                                     <outlet property="cellText" destination="GwA-ct-WwL" id="Rkn-Qg-glJ"/>
                                     <segue destination="dkt-kg-Of1" kind="show" identifier="showFriendView" id="dvP-Ue-Wwf"/>
                                 </connections>
@@ -173,7 +186,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cdn-cG-aVe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="wbz-dE-gue" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2786.9565217391305" y="-607.36607142857144"/>
+            <point key="canvasLocation" x="2799" y="-607"/>
         </scene>
         <!--Friend View-->
         <scene sceneID="RCm-VL-dxz">
