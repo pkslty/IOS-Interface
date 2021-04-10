@@ -28,6 +28,7 @@ import UIKit
             if autoSizeForShadow {
                 radius = bounds.height / 2
                 shadowRadius = radius / 10
+                shadowOffset = CGSize(width: radius / 10, height: radius / 10)
             }
         }
     }
@@ -53,6 +54,16 @@ import UIKit
         }
     }
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUpView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setUpView()
+    }
+    
     override func draw(_ rect: CGRect) {
         
         super.draw(rect)
@@ -91,6 +102,9 @@ import UIKit
 
     }
     
-
+    private func setUpView(){
+        addSubview(imageView)
+        layer.addSublayer(shadowLayer)
+    }
     
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3658BF062620286C0047E093 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3658BF052620286C0047E093 /* RoundShadowView.swift */; };
+		366F81632621B4AB007122AD /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366F81622621B4AB007122AD /* LikeButton.swift */; };
 		368485ED261BA62000CCCAF4 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */; };
 		368485F1261BA72E00CCCAF4 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */; };
 		368485F6261BAA7F00CCCAF4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368485F5261BAA7F00CCCAF4 /* User.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		3658BF052620286C0047E093 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
+		366F81622621B4AB007122AD /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LikeButton.swift; path = "VKApp/Custom View/LikeButton.swift"; sourceTree = "<group>"; };
 		368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		368485F5261BAA7F00CCCAF4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		369631A6261500E100AC37C0 = {
 			isa = PBXGroup;
 			children = (
+				366F81622621B4AB007122AD /* LikeButton.swift */,
 				369631D42617870800AC37C0 /* Localizable.strings */,
 				369631B1261500E100AC37C0 /* VKApp */,
 				369631B0261500E100AC37C0 /* Products */,
@@ -104,38 +107,54 @@
 				369631B2261500E100AC37C0 /* AppDelegate.swift */,
 				368485F4261BAA1200CCCAF4 /* Model */,
 				369631B4261500E100AC37C0 /* SceneDelegate.swift */,
+				36C978B32621A79000FA1D12 /* Reusable Cells */,
+				36C978B22621A6BF00FA1D12 /* Custom View */,
 				369631CA2615E80F00AC37C0 /* Controller */,
 				369631BB261500E600AC37C0 /* Assets.xcassets */,
-				369631C72615010100AC37C0 /* View */,
+				369631C72615010100AC37C0 /* Storyboard */,
 				369631C0261500E600AC37C0 /* Info.plist */,
 			);
 			path = VKApp;
 			sourceTree = "<group>";
 		};
-		369631C72615010100AC37C0 /* View */ = {
+		369631C72615010100AC37C0 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
 				369631B8261500E100AC37C0 /* Main.storyboard */,
 				369631BD261500E600AC37C0 /* LaunchScreen.storyboard */,
 			);
-			path = View;
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		369631CA2615E80F00AC37C0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				36945471261CDF1100B60CF6 /* UserGroupCell.swift */,
 				3699DEA0261CD45900989B46 /* AllGroupsViewController.swift */,
-				3694546E261CD78F00B60CF6 /* NewGroupCell.swift */,
 				3699DE9D261CD44300989B46 /* UserGroupsViewController.swift */,
-				3658BF052620286C0047E093 /* RoundShadowView.swift */,
-				36B7F6AF261C9E6900D1289D /* FriendPhoto.swift */,
 				36B7F6AB261C99EB00D1289D /* FriendView.swift */,
 				368485F0261BA72E00CCCAF4 /* FriendsTableViewController.swift */,
-				368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */,
 				369631B6261500E100AC37C0 /* LoginViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		36C978B22621A6BF00FA1D12 /* Custom View */ = {
+			isa = PBXGroup;
+			children = (
+				3658BF052620286C0047E093 /* RoundShadowView.swift */,
+			);
+			path = "Custom View";
+			sourceTree = "<group>";
+		};
+		36C978B32621A79000FA1D12 /* Reusable Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3694546E261CD78F00B60CF6 /* NewGroupCell.swift */,
+				36945471261CDF1100B60CF6 /* UserGroupCell.swift */,
+				368485EC261BA62000CCCAF4 /* FriendsTableCell.swift */,
+				36B7F6AF261C9E6900D1289D /* FriendPhoto.swift */,
+			);
+			path = "Reusable Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +244,7 @@
 				369631B5261500E100AC37C0 /* SceneDelegate.swift in Sources */,
 				36B7F6B0261C9E6900D1289D /* FriendPhoto.swift in Sources */,
 				36945472261CDF1100B60CF6 /* UserGroupCell.swift in Sources */,
+				366F81632621B4AB007122AD /* LikeButton.swift in Sources */,
 				368485F1261BA72E00CCCAF4 /* FriendsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

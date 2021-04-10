@@ -10,6 +10,6 @@ import UIKit
 struct Person {
     var name: String
     var avatar: UIImage?
-    var photos = [(image: UIImage,likes: UInt)]()
+    var photos = [(image: UIImage, likes: Int, likers: Set<String>)]()
     var posts = [Post]()
 }

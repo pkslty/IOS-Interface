@@ -21,8 +21,13 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PVA-BK-udm">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VVG-Uo-eNR" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-r6-Udm">
+                                        <rect key="frame" x="103.5" y="346.5" width="207" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VVG-Uo-eNR" userLabel="ContentView">
+                                        <rect key="frame" x="0.0" y="-8" width="414" height="818"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlp-fF-gZR">
                                                 <rect key="frame" x="161.5" y="204.5" width="91" height="24"/>
@@ -62,11 +67,6 @@
                                             <constraint firstItem="2IL-Vd-fqs" firstAttribute="top" secondItem="Bai-4o-j0Z" secondAttribute="bottom" constant="20" id="oDr-BG-DTn"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMa-r6-Udm">
-                                        <rect key="frame" x="103.5" y="346.5" width="207" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
-                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="VVG-Uo-eNR" firstAttribute="leading" secondItem="PVA-BK-udm" secondAttribute="leading" id="7cB-xa-hyM"/>
@@ -217,6 +217,16 @@
                                                 <constraint firstAttribute="width" constant="380" id="zas-ar-Sre"/>
                                             </constraints>
                                         </imageView>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="POQ-qj-ac0" customClass="LikeButton" customModule="VKApp" customModuleProvider="target">
+                                            <rect key="frame" x="287" y="345" width="103" height="47"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="labelFontSize">
+                                                    <real key="value" value="20"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="gQ6-X9-UoH" secondAttribute="bottom" constant="10" id="Lpk-up-Ta2"/>
@@ -227,6 +237,7 @@
                                 </collectionViewCellContentView>
                                 <size key="customSize" width="400" height="400"/>
                                 <connections>
+                                    <outlet property="likeButton" destination="POQ-qj-ac0" id="uNz-ul-Eg7"/>
                                     <outlet property="photo" destination="gQ6-X9-UoH" id="UdG-eY-zbF"/>
                                 </connections>
                             </collectionViewCell>

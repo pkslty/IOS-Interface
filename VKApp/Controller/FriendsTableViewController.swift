@@ -48,6 +48,8 @@ class FriendsTableViewController: UITableViewController {
 
         if let viewController = segue.destination as? FriendView {
             viewController.friend = user?.friends[self.tableView.indexPathForSelectedRow!.row]
+            viewController.likeDelegate = self
+            viewController.username = user?.name
         }
     }
 
@@ -71,20 +73,38 @@ class FriendsTableViewController: UITableViewController {
 
         user.friends.append(Person(name: "Alexey"))
                                    
-        user.friends[0].photos.append((UIImage(named: "man01")!, 0))
-        user.friends[1].photos.append((UIImage(named: "man02")!, 0))
-        user.friends[2].photos.append((UIImage(named: "man03")!, 0))
-        user.friends[3].photos.append((UIImage(named: "woman01")!, 0))
-        user.friends[4].photos.append((UIImage(named: "woman02")!, 0))
-        user.friends[5].photos.append((UIImage(named: "man04")!, 0))
-        user.friends[6].photos.append((UIImage(named: "man05")!, 0))
+        user.friends[0].photos.append((UIImage(named: "man01")!, 0, Set<String>()))
+        user.friends[0].photos[0].likes = 87
+        user.friends[0].photos[0].likers.insert("Admin")
+        user.friends[1].photos.append((UIImage(named: "man02")!, 0, Set<String>()))
         
-        user.friends[1].photos.append((UIImage(named: "man01")!, 0))
-        user.friends[1].photos.append((UIImage(named: "man03")!, 0))
-        user.friends[1].photos.append((UIImage(named: "woman01")!, 0))
-        user.friends[1].photos.append((UIImage(named: "woman02")!, 0))
-        user.friends[1].photos.append((UIImage(named: "man04")!, 0))
-        user.friends[1].photos.append((UIImage(named: "man05")!, 0))
+        user.friends[2].photos.append((UIImage(named: "man03")!, 0, Set<String>()))
+        user.friends[3].photos.append((UIImage(named: "woman01")!, 0, Set<String>()))
+        user.friends[4].photos.append((UIImage(named: "woman02")!, 0, Set<String>()))
+        user.friends[5].photos.append((UIImage(named: "man04")!, 0, Set<String>()))
+        user.friends[6].photos.append((UIImage(named: "man05")!, 0, Set<String>()))
+        
+        user.friends[1].photos.append((UIImage(named: "man01")!, 0, Set<String>()))
+        user.friends[1].photos.append((UIImage(named: "man03")!, 0, Set<String>()))
+        user.friends[1].photos.append((UIImage(named: "woman01")!, 0, Set<String>()))
+        user.friends[1].photos.append((UIImage(named: "woman02")!, 0, Set<String>()))
+        user.friends[1].photos.append((UIImage(named: "man04")!, 0, Set<String>()))
+        user.friends[1].photos.append((UIImage(named: "man05")!, 0, Set<String>()))
     }
 
+}
+
+extension FriendsTableViewController: LikeButtonProtocol {
+    
+    func updateLike(likes: Int, tag: Int, like: Bool) {
+        user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likes = likes
+        //print(self.tableView.indexPathForSelectedRow)
+        let username = user!.name
+        if like {
+            user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likers.insert(username)
+        } else {
+            user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likers.remove(username)
+        }
+        //print(friend?.photos[tag])
+    }
 }

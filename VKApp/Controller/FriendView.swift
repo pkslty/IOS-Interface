@@ -10,11 +10,15 @@ import UIKit
 class FriendView: UICollectionViewController {
 
     var friend: Person?
+    var likeDelegate: LikeButtonProtocol?
+    var username: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //print(friend)
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "friendPhoto")
+        //print(self.parent?.next)
+        
 
     }
 
@@ -34,13 +38,18 @@ class FriendView: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhoto
-        cell?.photo.image = friend?.photos[indexPath.row].image
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhoto
+        else { return UICollectionViewCell() }
+        
+        print(friend?.photos[indexPath.row].likers.contains(username!))
+        cell.config(image: (friend?.photos[indexPath.row].image)!,
+                    likes: (friend?.photos[indexPath.row].likes)!,
+                    tag: indexPath.row,
+                    state: (friend?.photos[indexPath.row].likers.contains(username!))!,
+                    delegate: likeDelegate!)
     
-    
-        return cell!
+        return cell
     }
-
-   
-
 }
+
+
