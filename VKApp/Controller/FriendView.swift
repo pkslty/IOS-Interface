@@ -41,7 +41,6 @@ class FriendView: UICollectionViewController {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhoto
         else { return UICollectionViewCell() }
         
-        print(friend?.photos[indexPath.row].likers.contains(username!))
         cell.config(image: (friend?.photos[indexPath.row].image)!,
                     likes: (friend?.photos[indexPath.row].likes)!,
                     tag: indexPath.row,

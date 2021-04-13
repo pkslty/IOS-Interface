@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
         
         if let tabBarController = segue.destination as? UITabBarController,
            let navigationalController = tabBarController.viewControllers?.first as? UINavigationController,
-           let viewController = navigationalController.viewControllers.first as? FriendsTableViewController {
+           let viewController = navigationalController.viewControllers.first as? FriendsViewController {
                 viewController.user = users[currentUser!]
         }
 
@@ -83,6 +83,7 @@ class LoginViewController: UIViewController {
         //Добавлляем gesture recognizer для глаза
         let eyeTapGesture = UITapGestureRecognizer(target: self, action: #selector(showHidePassword))
         eyeButton?.addGestureRecognizer(eyeTapGesture)
+        
         
     }
    

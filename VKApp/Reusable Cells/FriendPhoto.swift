@@ -17,7 +17,6 @@ class FriendPhoto: UICollectionViewCell {
         photo.image = image
         likeButton.tag = tag
         likeButton.like = state
-        print("FriendPhoto: \(state)")
         likeButton.delegate = delegate
     }
     
