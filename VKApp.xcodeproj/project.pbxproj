@@ -62,7 +62,7 @@
 		36B7F6A8261C871200D1289D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		36B7F6AB261C99EB00D1289D /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
 		36B7F6AF261C9E6900D1289D /* FriendPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhoto.swift; sourceTree = "<group>"; };
-		36B9BDAB26247F7500AC4AD9 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FriendsViewController.swift; path = VKApp/Controller/FriendsViewController.swift; sourceTree = "<group>"; };
+		36B9BDAB26247F7500AC4AD9 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +90,6 @@
 		369631A6261500E100AC37C0 = {
 			isa = PBXGroup;
 			children = (
-				36B9BDAB26247F7500AC4AD9 /* FriendsViewController.swift */,
 				369631D42617870800AC37C0 /* Localizable.strings */,
 				369631B1261500E100AC37C0 /* VKApp */,
 				369631B0261500E100AC37C0 /* Products */,
@@ -133,6 +132,7 @@
 		369631CA2615E80F00AC37C0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				36B9BDAB26247F7500AC4AD9 /* FriendsViewController.swift */,
 				3699DEA0261CD45900989B46 /* AllGroupsViewController.swift */,
 				3699DE9D261CD44300989B46 /* UserGroupsViewController.swift */,
 				36B7F6AB261C99EB00D1289D /* FriendView.swift */,

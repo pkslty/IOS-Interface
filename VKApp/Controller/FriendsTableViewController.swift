@@ -48,7 +48,6 @@ class FriendsTableViewController: UITableViewController {
 
         if let viewController = segue.destination as? FriendView {
             viewController.friend = user?.friends[self.tableView.indexPathForSelectedRow!.row]
-            viewController.likeDelegate = self
             viewController.username = user?.name
         }
     }

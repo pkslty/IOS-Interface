@@ -10,7 +10,6 @@ import UIKit
 class FriendView: UICollectionViewController {
 
     var friend: Person?
-    var likeDelegate: LikeButtonProtocol?
     var username: String?
     
     override func viewDidLoad() {
@@ -44,8 +43,7 @@ class FriendView: UICollectionViewController {
         cell.config(image: (friend?.photos[indexPath.row].image)!,
                     likes: (friend?.photos[indexPath.row].likes)!,
                     tag: indexPath.row,
-                    state: (friend?.photos[indexPath.row].likers.contains(username!))!,
-                    delegate: likeDelegate!)
+                    state: (friend?.photos[indexPath.row].likers.contains(username!))!)
     
         return cell
     }

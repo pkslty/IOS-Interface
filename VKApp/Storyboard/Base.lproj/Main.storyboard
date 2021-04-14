@@ -168,6 +168,7 @@
                                         <connections>
                                             <outlet property="avatarImage" destination="jWE-4v-wFT" id="J64-Hd-tIl"/>
                                             <outlet property="cellText" destination="ymj-rL-r2d" id="Yxd-Ph-hI4"/>
+                                            <segue destination="dkt-kg-Of1" kind="show" identifier="showFriendPhotos" id="6pM-OU-jJI"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -262,7 +263,6 @@
                                 <connections>
                                     <outlet property="avatarImage" destination="wpZ-Zl-YB8" id="Y2J-Mz-Lfn"/>
                                     <outlet property="cellText" destination="GwA-ct-WwL" id="Rkn-Qg-glJ"/>
-                                    <segue destination="dkt-kg-Of1" kind="show" identifier="showFriendView" id="dvP-Ue-Wwf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -348,7 +348,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZAW-oM-rXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4581.159420289855" y="-607.36607142857144"/>
+            <point key="canvasLocation" x="3671" y="-607"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="jnM-fE-cRf">

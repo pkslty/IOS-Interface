@@ -23,7 +23,7 @@ protocol LikeButtonProtocol {
     }
     
     var likes: Int = 0
-    var like: Bool = false {
+    var isLiked: Bool = false {
         didSet {
             setNeedsLayout()
         }
@@ -72,21 +72,22 @@ protocol LikeButtonProtocol {
     }
     
     @objc private func setLike(_ sender: UIButton) {
-        if like {
+        if isLiked {
             likes -= 1
-            like.toggle()
+            isLiked.toggle()
             setState()
         } else {
             likes += 1
-            like.toggle()
+            isLiked.toggle()
             setState()
         }
-        delegate?.updateLike(likes: likes, tag: tag, like: like)
+        delegate?.updateLike(likes: likes, tag: tag, like: isLiked)
+        sendActions(for: .valueChanged)
     }
     
     private func setState() {
         label.text = String(likes)
-        like ?
+        isLiked ?
             button.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal) :
             button.setImage(UIImage(systemName: "suit.heart"), for: .normal)
 

@@ -33,7 +33,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
             getFriends(ofUser: &self.user!)
         }
         
-        var model: [Person] = user!.friends.sorted(by: <)
         user!.friends = user!.friends.sorted(by: <)
         for (i, s) in user!.friends.enumerated() {
             let ch = Character(user!.friends[i].name.first!.uppercased()).isLetter ?
@@ -71,7 +70,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "showFriendPhotos" {
+            guard let destinationVC = segue.destination as? FriendView else { return }
+            destinationVC.friend = user?.friends[friends[friendTable.indexPathForSelectedRow!.section].friendsList[friendTable.indexPathForSelectedRow!.row]]
+            destinationVC.username = user?.name
+        }
+    }
 }
 
 extension FriendsViewController: UITableViewDataSource {
@@ -138,4 +144,19 @@ extension FriendsViewController: UITableViewDataSource {
         user.friends[1].photos.append((UIImage(named: "man05")!, 0, Set<String>()))
     }
     
+}
+
+extension FriendsViewController: LikeButtonProtocol {
+    
+    func updateLike(likes: Int, tag: Int, like: Bool) {
+        user?.friends[friendTable.indexPathForSelectedRow!.row].photos[tag].likes = likes
+        //print(self.tableView.indexPathForSelectedRow)
+        let username = user!.name
+        if like {
+            user?.friends[friendTable.indexPathForSelectedRow!.row].photos[tag].likers.insert(username)
+        } else {
+            user?.friends[friendTable.indexPathForSelectedRow!.row].photos[tag].likers.remove(username)
+        }
+        //print(friend?.photos[tag])
+    }
 }
