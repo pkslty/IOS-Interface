@@ -19,4 +19,6 @@ class FriendPhoto: UICollectionViewCell {
         likeButton.isLiked = state
     }
     
+    
+
 }

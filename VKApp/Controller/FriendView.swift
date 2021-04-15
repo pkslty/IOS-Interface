@@ -10,6 +10,7 @@ import UIKit
 class FriendView: UICollectionViewController {
 
     var friend: Person?
+    var friendNum: Int?
     var username: String?
     
     override func viewDidLoad() {
@@ -17,10 +18,10 @@ class FriendView: UICollectionViewController {
         //print(friend)
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "friendPhoto")
         //print(self.parent?.next)
+        navigationController?.delegate = self
         
 
     }
-
 
 
     // MARK: UICollectionViewDataSource
@@ -44,9 +45,25 @@ class FriendView: UICollectionViewController {
                     likes: (friend?.photos[indexPath.row].likes)!,
                     tag: indexPath.row,
                     state: (friend?.photos[indexPath.row].likers.contains(username!))!)
+        cell.likeButton.addTarget(self, action: #selector(likeButtonValueChanged(_:)), for: .valueChanged)
     
         return cell
     }
+    
+    @objc private func likeButtonValueChanged(_ likeButton: LikeButton) {
+        friend?.photos[likeButton.tag].likes = likeButton.likes
+        let _ = likeButton.isLiked ?
+            friend?.photos[likeButton.tag].likers.insert(username!) :
+            friend?.photos[likeButton.tag].likers.remove(username!)
+
+    }
+    
 }
 
+extension FriendView: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        (viewController as? FriendsViewController)?.user?.friends[friendNum!].photos = friend!.photos
+    }
+}
 

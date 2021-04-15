@@ -8,7 +8,11 @@
 import UIKit
 
 struct User {
-    var name: String
+    var username: String
+    var firstname: String
+    var middlename: String = ""
+    var lastname: String = ""
+    var fullname: String {"\(firstname) \(middlename) \(lastname)"}
     var login: String
     var password: String
     var friends = [Person]()

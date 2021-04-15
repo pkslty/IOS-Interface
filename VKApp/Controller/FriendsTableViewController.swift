@@ -36,7 +36,7 @@ class FriendsTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsTableCell", for: indexPath) as? FriendsTableCell
         else { return UITableViewCell()}
 
-        cell.config(name: user?.friends[indexPath.row].name,
+        cell.config(name: user?.friends[indexPath.row].firstname,
                     avatar: user?.friends[indexPath.row].avatar ??
                         UIImage(systemName: "person.fill.questionmark.rtl"))
 
@@ -48,7 +48,7 @@ class FriendsTableViewController: UITableViewController {
 
         if let viewController = segue.destination as? FriendView {
             viewController.friend = user?.friends[self.tableView.indexPathForSelectedRow!.row]
-            viewController.username = user?.name
+            viewController.username = user?.firstname
         }
     }
 
@@ -56,21 +56,21 @@ class FriendsTableViewController: UITableViewController {
     
     private func getFriends(ofUser user: inout User) {
         
-        user.friends.append(Person(name: "Ivan"))
+        user.friends.append(Person(firstname: "Ivan", lastname: "Ivanov"))
        
-        user.friends.append(Person(name: "Petr"))
+        user.friends.append(Person(firstname: "Petr", lastname: "Petrov"))
         
-        user.friends.append(Person(name: "Andrey"))
+        user.friends.append(Person(firstname: "Andrey", lastname: "Andreev"))
 
-        user.friends.append(Person(name: "Anna"))
+        user.friends.append(Person(firstname: "Anna", lastname: "Annova"))
 
-        user.friends.append(Person(name: "Nadya",
+        user.friends.append(Person(firstname: "Nadya", lastname: "TheHope",
                                    avatar: UIImage(named: "woman01")))
 
-        user.friends.append(Person(name: "Fedor",
+        user.friends.append(Person(firstname: "Fedor", lastname: "Fedorov",
                                    avatar: UIImage(named: "man01")))
 
-        user.friends.append(Person(name: "Alexey"))
+        user.friends.append(Person(firstname: "Alexey", lastname: "Alexeev"))
                                    
         user.friends[0].photos.append((UIImage(named: "man01")!, 0, Set<String>()))
         user.friends[0].photos[0].likes = 87
@@ -93,17 +93,4 @@ class FriendsTableViewController: UITableViewController {
 
 }
 
-extension FriendsTableViewController: LikeButtonProtocol {
-    
-    func updateLike(likes: Int, tag: Int, like: Bool) {
-        user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likes = likes
-        //print(self.tableView.indexPathForSelectedRow)
-        let username = user!.name
-        if like {
-            user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likers.insert(username)
-        } else {
-            user?.friends[tableView.indexPathForSelectedRow!.row].photos[tag].likers.remove(username)
-        }
-        //print(friend?.photos[tag])
-    }
-}
+

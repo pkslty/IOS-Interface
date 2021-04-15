@@ -9,19 +9,7 @@ import UIKit
 
 @IBDesignable class RoundShadowView: UIView {
 
-    @IBInspectable var radius: CGFloat = 20 {
-        didSet {
-            if autoSizeForShadow {
-                shadowRadius = radius / 10
-                shadowOffset = CGSize(width: radius / 10, height: radius / 10)
-            }
-            setNeedsLayout()
-        }
-    }
-    
-    private let imageView = UIImageView()
-    
-    private let shadowLayer = CALayer()
+    //MARK - @IBInspectable properties
     
     @IBInspectable var autoSizeForShadow: Bool = true {
         didSet {
@@ -32,20 +20,23 @@ import UIKit
             }
         }
     }
-    var shadowColor = UIColor.black.cgColor {
+    
+    @IBInspectable var radius: CGFloat = 20 {
         didSet {
+            if autoSizeForShadow {
+                shadowRadius = radius / 10
+                shadowOffset = CGSize(width: radius / 10, height: radius / 10)
+            }
             setNeedsLayout()
         }
     }
-    @IBInspectable private var shadowRadius: CGFloat = 2 {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+    
     @IBInspectable var shadowOffset: CGSize = CGSize(width: 2, height: 2)
+    
     var image: UIImage? {
         didSet {
             setNeedsLayout()
+            draw(bounds)
         }
     }
     @IBInspectable var shadowOpacity: CGFloat = 0.9 {
@@ -53,7 +44,27 @@ import UIKit
             setNeedsLayout()
         }
     }
-
+    
+    @IBInspectable private var shadowRadius: CGFloat = 2 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    //MARK - Properties
+    
+    private let imageView = UIImageView()
+    
+    var shadowColor = UIColor.black.cgColor {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    private let shadowLayer = CALayer()
+    
+    // MARK - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
@@ -63,6 +74,8 @@ import UIKit
         super.init(coder: coder)
         setUpView()
     }
+    
+    //MARK - Overrided methods
     
     override func draw(_ rect: CGRect) {
         
@@ -75,9 +88,11 @@ import UIKit
         layer.masksToBounds = false
         backgroundColor = .clear
         
-        if imageView.superview == nil {
-            addSubview(imageView)
+        for subview in subviews {
+            subview.removeFromSuperview()
         }
+        addSubview(imageView)
+
         imageView.image = image
         imageView.bounds = bounds
         imageView.frame = bounds
@@ -102,8 +117,9 @@ import UIKit
 
     }
     
+    //MARK - Private methods    
+    
     private func setUpView(){
-        addSubview(imageView)
         layer.addSublayer(shadowLayer)
     }
     

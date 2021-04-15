@@ -9,12 +9,15 @@ import UIKit
 
 class FriendsTableCell: UITableViewCell {
 
-    @IBOutlet weak var cellText: UILabel!
+   
+    @IBOutlet weak var friendName: UILabel!
+    
     
     @IBOutlet weak var avatarImage: RoundShadowView!
     
+    
     func config(name: String?, avatar: UIImage?) {
-        cellText.text = name
+        friendName.text = name
         avatarImage.shadowColor = UIColor.blue.cgColor
         avatarImage.image = avatar
     }

@@ -169,9 +169,9 @@ class LoginViewController: UIViewController {
     private func getUsers() -> [User] {
         var users = [User]()
         
-        users.append(User(name: "Denis", login: "dnk", password: "827ccb0eea8a706c4c34a16891f84e7b"))
-        users.append(User(name: "Admin", login: "admin", password: MD5(string: "12345678")))
-        users.append(User(name: "1", login: "1", password: MD5(string: "1")))
+        users.append(User(username: "denis", firstname: "Denis", login: "dnk", password: "827ccb0eea8a706c4c34a16891f84e7b"))
+        users.append(User(username: "admin", firstname: "Admin", login: "admin", password: MD5(string: "12345678")))
+        users.append(User(username: "1", firstname: "1", login: "1", password: MD5(string: "1")))
         
         return users
     }
