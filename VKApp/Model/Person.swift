@@ -19,7 +19,7 @@ struct Person {
 
 extension Person: Comparable {
     static func < (lhs: Person, rhs: Person) -> Bool {
-        lhs.fullname < rhs.fullname
+        lhs.lastname < rhs.lastname
     }
     
     static func == (lhs: Person, rhs: Person) -> Bool {

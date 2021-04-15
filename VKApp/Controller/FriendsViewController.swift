@@ -34,8 +34,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
         user!.friends = user!.friends.sorted(by: <)
         
         for i in 0 ..< user!.friends.count {
-            let ch = Character(user!.friends[i].fullname.first!.uppercased()).isLetter ?
-                Character(user!.friends[i].fullname.first!.uppercased()) : "#"
+            let ch = Character(user!.friends[i].lastname.first!.uppercased()).isLetter ?
+                Character(user!.friends[i].lastname.first!.uppercased()) : "#"
             
             if let num = friends.firstIndex(where: {friendsection in friendsection.sectionName == ch}) {
                 friends[num].friendsList.append(i)
