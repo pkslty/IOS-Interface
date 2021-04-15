@@ -63,8 +63,10 @@ import UIKit
     }
     
     @objc private func controlPan(_ recognizer: UIGestureRecognizer) {
-        let y = recognizer.location(in: self).y
-        pickedCategory = Int(y / bounds.height * CGFloat(categories.count))
+        var y = recognizer.location(in: self).y
+        if y < 0 { y = 0}
+        else if y > bounds.height {y = bounds.height }
+        pickedCategory = Int(y / bounds.height * CGFloat(categories.count-1))
         sendActions(for: .valueChanged)
     }
     
