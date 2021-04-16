@@ -16,12 +16,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
     
     var categories = [String]()
     
-    struct friendsSection {
+    struct section {
         var sectionName: Character
-        var friendsList: [Int]
+        var rows: [Int]
     }
     
-    var friends = [friendsSection]()
+    var sections = [section]()
     
     
     override func viewDidLoad() {
@@ -37,10 +37,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
             let ch = Character(user!.friends[i].lastname.first!.uppercased()).isLetter ?
                 Character(user!.friends[i].lastname.first!.uppercased()) : "#"
             
-            if let num = friends.firstIndex(where: {friendsection in friendsection.sectionName == ch}) {
-                friends[num].friendsList.append(i)
+            if let num = sections.firstIndex(where: {friendsection in friendsection.sectionName == ch}) {
+                sections[num].rows.append(i)
             } else {
-                friends.append(friendsSection(sectionName: ch, friendsList: [i]))
+                sections.append(section(sectionName: ch, rows: [i]))
                 categoriesPicker.categories.append(String(ch))
             }
         }
@@ -62,7 +62,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "showFriendPhotos" {
             guard let destinationVC = segue.destination as? FriendView else { return }
-            destinationVC.friendNum = friends[friendTable.indexPathForSelectedRow!.section].friendsList[friendTable.indexPathForSelectedRow!.row]
+            destinationVC.friendNum = sections[friendTable.indexPathForSelectedRow!.section].rows[friendTable.indexPathForSelectedRow!.row]
             destinationVC.friend = user?.friends[destinationVC.friendNum!]
             destinationVC.username = user?.username
         }
@@ -73,11 +73,15 @@ extension FriendsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return friends[section].friendsList.count
+        return sections[section].rows.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return friends.count
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,7 +89,7 @@ extension FriendsViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsTableCell", for: indexPath) as? FriendsTableCell
         else { return UITableViewCell()}
         
-        let num = friends[indexPath.section].friendsList[indexPath.row]
+        let num = sections[indexPath.section].rows[indexPath.row]
         cell.config(name: user!.friends[num].fullname,
                     avatar: user!.friends[num].avatar ?? UIImage(systemName: "person.fill.questionmark.rtl"))
 
@@ -93,7 +97,7 @@ extension FriendsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(friends[section].sectionName)
+        return String(sections[section].sectionName)
     }
 
     private func getFriends(ofUser user: inout User) {
