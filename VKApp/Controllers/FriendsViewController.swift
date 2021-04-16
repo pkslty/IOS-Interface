@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class FriendsViewController: UIViewController, UITableViewDelegate {
 
     @IBOutlet weak var friendTable: UITableView!
@@ -16,12 +18,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
     
     var categories = [String]()
     
-    struct section {
+    struct Section {
         var sectionName: Character
         var rows: [Int]
     }
     
-    var sections = [section]()
+    var sections = [Section]()
     
     
     override func viewDidLoad() {
@@ -40,7 +42,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
             if let num = sections.firstIndex(where: {friendsection in friendsection.sectionName == ch}) {
                 sections[num].rows.append(i)
             } else {
-                sections.append(section(sectionName: ch, rows: [i]))
+                sections.append(Section(sectionName: ch, rows: [i]))
                 categoriesPicker.categories.append(String(ch))
             }
         }

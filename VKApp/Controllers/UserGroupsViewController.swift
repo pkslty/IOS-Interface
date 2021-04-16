@@ -14,10 +14,15 @@ class UserGroupsViewController: UITableViewController {
     @IBAction func addGroup(segue: UIStoryboardSegue) {
         
         if let viewController = segue.source as? AllGroupsViewController {
-            if !groups.contains((viewController.groups?[viewController.groupsTable.indexPathForSelectedRow!.row])!) {
-                groups.append((viewController.groups?[viewController.groupsTable.indexPathForSelectedRow!.row])!)
+            if let allgroups = viewController.groups,
+               let section = viewController.groupsTable.indexPathForSelectedRow?.section,
+               let row = viewController.groupsTable.indexPathForSelectedRow?.row {
+                    let num = viewController.sections[section].rows[row]
+                    if !groups.contains(allgroups[num]) {
+                        groups.append(allgroups[num])
+                    }
+                    self.tableView.reloadData()
             }
-            self.tableView.reloadData()
         }
     }
     
@@ -42,7 +47,7 @@ class UserGroupsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserGroupCell", for: indexPath) as? UserGroupCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupCell
         
         else { return UITableViewCell() }
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserGroupCell: UITableViewCell {
+class GroupCell: UITableViewCell {
 
     @IBOutlet weak var groupCellText: UILabel!
     @IBOutlet weak var groupDescriptionText: UILabel!

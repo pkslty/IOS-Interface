@@ -301,7 +301,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserGroupCell" rowHeight="131" id="aJh-ve-fcx" customClass="UserGroupCell" customModule="VKApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="131" id="aJh-ve-fcx" customClass="GroupCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="131"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aJh-ve-fcx" id="816-TO-dsJ">
@@ -405,25 +405,50 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewGroupCell" id="CFU-ba-2u9" customClass="NewGroupCell" customModule="VKApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="131" id="aTu-pR-Xys" customClass="GroupCell" customModule="VKApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="414" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CFU-ba-2u9" id="dF5-dM-nzg">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aTu-pR-Xys" id="8v6-Fr-eVS">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="131"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBd-w6-7L1">
-                                                    <rect key="frame" x="67" y="11" width="207" height="22"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGn-ti-Hdt">
+                                                    <rect key="frame" x="38" y="11" width="314" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnb-4O-1yh">
+                                                    <rect key="frame" x="38" y="36.5" width="314" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kfF-Iv-nCP">
+                                                    <rect key="frame" x="354" y="0.0" width="55" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="dq0-jW-Dyg"/>
+                                                        <constraint firstAttribute="height" constant="55" id="wVz-8o-bCx"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kfF-Iv-nCP" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="8v6-Fr-eVS" secondAttribute="bottom" id="4AK-gs-Dm6"/>
+                                                <constraint firstItem="MGn-ti-Hdt" firstAttribute="trailing" secondItem="kfF-Iv-nCP" secondAttribute="leadingMargin" constant="-10" id="AKd-Ch-jNG"/>
+                                                <constraint firstItem="MGn-ti-Hdt" firstAttribute="leading" secondItem="8v6-Fr-eVS" secondAttribute="leadingMargin" constant="18" id="OAI-JA-k7e"/>
+                                                <constraint firstItem="jnb-4O-1yh" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="8v6-Fr-eVS" secondAttribute="bottomMargin" id="RVG-Sz-HcR"/>
+                                                <constraint firstItem="jnb-4O-1yh" firstAttribute="top" secondItem="MGn-ti-Hdt" secondAttribute="bottom" constant="5" id="SOk-jp-ztu"/>
+                                                <constraint firstItem="MGn-ti-Hdt" firstAttribute="top" secondItem="8v6-Fr-eVS" secondAttribute="topMargin" id="eyH-XP-QYj"/>
+                                                <constraint firstAttribute="trailing" secondItem="kfF-Iv-nCP" secondAttribute="trailing" constant="5" id="h84-CD-epH"/>
+                                                <constraint firstItem="kfF-Iv-nCP" firstAttribute="top" secondItem="8v6-Fr-eVS" secondAttribute="topMargin" constant="-11" id="pBH-is-KiA"/>
+                                                <constraint firstItem="jnb-4O-1yh" firstAttribute="leading" secondItem="8v6-Fr-eVS" secondAttribute="leadingMargin" constant="18" id="vFs-6l-0db"/>
+                                                <constraint firstItem="jnb-4O-1yh" firstAttribute="trailing" secondItem="kfF-Iv-nCP" secondAttribute="leadingMargin" constant="-10" id="xmA-Kj-LNc"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="groupCellText" destination="OBd-w6-7L1" id="d3m-2K-fqe"/>
-                                            <segue destination="SEc-Qa-WFC" kind="unwind" unwindAction="addGroupWithSegue:" id="4YE-vG-XgC"/>
+                                            <outlet property="groupCellText" destination="MGn-ti-Hdt" id="oJR-2I-BE4"/>
+                                            <outlet property="groupDescriptionText" destination="jnb-4O-1yh" id="tMs-xU-jVV"/>
+                                            <outlet property="groupImage" destination="kfF-Iv-nCP" id="MPB-ZF-HVv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -442,7 +467,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ohd-DN-Cbt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="SEc-Qa-WFC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3683" y="-75"/>
         </scene>
