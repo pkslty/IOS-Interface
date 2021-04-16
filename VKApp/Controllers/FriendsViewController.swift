@@ -47,7 +47,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
         
         categoriesPicker.addTarget(self, action: #selector(categoriesPickerValueChanged(_:)),
                               for: .valueChanged)
-        
+        friendTable.register(FriendsTableCellHeader.self, forHeaderFooterViewReuseIdentifier: "FriendsTableCellHeader")
     }
     
     @objc func categoriesPickerValueChanged(_ categoriesPicker: CategoriesPicker) {
@@ -96,9 +96,20 @@ extension FriendsViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return String(sections[section].sectionName)
+    }*/
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard  let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "FriendsTableCellHeader") as? FriendsTableCellHeader
+        else { return UITableViewHeaderFooterView() }
+        
+        header.configure(text: String(sections[section].sectionName))
+        return header
     }
+    
+    
 
     private func getFriends(ofUser user: inout User) {
         

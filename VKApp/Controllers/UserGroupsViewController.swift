@@ -14,8 +14,8 @@ class UserGroupsViewController: UITableViewController {
     @IBAction func addGroup(segue: UIStoryboardSegue) {
         
         if let viewController = segue.source as? AllGroupsViewController {
-            if !groups.contains((viewController.groups?[viewController.tableView.indexPathForSelectedRow!.row])!) {
-                groups.append((viewController.groups?[viewController.tableView.indexPathForSelectedRow!.row])!)
+            if !groups.contains((viewController.groups?[viewController.groupsTable.indexPathForSelectedRow!.row])!) {
+                groups.append((viewController.groups?[viewController.groupsTable.indexPathForSelectedRow!.row])!)
             }
             self.tableView.reloadData()
         }
