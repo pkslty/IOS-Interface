@@ -9,6 +9,7 @@ import UIKit
 
 class AllGroupsViewController: UIViewController, UITableViewDelegate {
 
+    //@IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var groupsTable: UITableView!
     
@@ -16,7 +17,7 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //searchBar.delegate = self
         getGroups()
 
     }
@@ -31,10 +32,9 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
             groups?[1].avatar = UIImage(named: "group01")
             groups?[3].avatar = UIImage(named: "group02")
             groups?[5].avatar = UIImage(named: "group03")
-            
         }
-        
     }
+    
     
 }
 
@@ -59,4 +59,21 @@ extension AllGroupsViewController: UITableViewDataSource {
 
         return cell!
     }
+}
+
+extension AllGroupsViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("searchBarTextDidBeginEditing")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("And now we have to search: \(searchBar.text)")
+    }
+    
+    
 }

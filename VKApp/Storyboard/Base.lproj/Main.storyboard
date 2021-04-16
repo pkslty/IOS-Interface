@@ -384,9 +384,29 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="Vue-r5-qLM">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="edr-PN-Noy">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="zb4-94-6t2" id="AgT-r4-Ody"/>
+                                            </connections>
+                                        </searchBar>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="edr-PN-Noy" secondAttribute="bottom" id="M5i-MD-TGq"/>
+                                        <constraint firstAttribute="trailing" secondItem="edr-PN-Noy" secondAttribute="trailing" id="aW0-fi-NbG"/>
+                                        <constraint firstItem="edr-PN-Noy" firstAttribute="leading" secondItem="Vue-r5-qLM" secondAttribute="leading" id="cTQ-hE-JaD"/>
+                                        <constraint firstItem="edr-PN-Noy" firstAttribute="top" secondItem="Vue-r5-qLM" secondAttribute="top" id="z8x-vb-Rta"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewGroupCell" id="CFU-ba-2u9" customClass="NewGroupCell" customModule="VKApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CFU-ba-2u9" id="dF5-dM-nzg">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
