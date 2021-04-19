@@ -51,8 +51,9 @@ class NewsCollectionViewLayout: UICollectionViewLayout {
                     lastY += actionsCellHeight
                 //Cell with the text if the text exists
                 case 1 where newsController.posts[section].text != nil:
-                    attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: textCellHeight)
-                    lastY += textCellHeight
+                    let cellHeightthatFits = UILabel.estimatedSize(newsController.posts[section].text!, targetSize: CGSize(width: cellWidth, height: .zero)).height
+                    attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: cellHeightthatFits)
+                    lastY += cellHeightthatFits
                 //All other cells with images
                 default:
                     if newsController.posts[section].isCollapsed {
@@ -99,4 +100,14 @@ class NewsCollectionViewLayout: UICollectionViewLayout {
         return CGSize(width: self.collectionView?.frame.width ?? 0,
                       height: self.totalCellsHeight)
     }
+}
+
+extension UILabel {
+
+   public static func estimatedSize(_ text: String, targetSize: CGSize) -> CGSize {
+       let label = UILabel(frame: .zero)
+       label.numberOfLines = 0
+       label.text = text
+       return label.sizeThatFits(targetSize)
+   }
 }

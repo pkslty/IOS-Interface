@@ -133,7 +133,6 @@ extension NewsViewController: UICollectionViewDataSource {
                         posts[section].isCollapsed = true
                     }
                     posts[indexPath.section].isCollapsed = false
-                    print("Reloaded")
                     newsCollection.reloadData()
                 }
             }
@@ -141,4 +140,5 @@ extension NewsViewController: UICollectionViewDataSource {
         }
     }
 }
+
 
