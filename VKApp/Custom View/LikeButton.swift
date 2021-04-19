@@ -86,10 +86,21 @@ protocol LikeButtonProtocol {
     }
     
     private func setState() {
-        label.text = String(likes)
+        
+        //Анимация: устанавливаться лайк будет быстро, а сниматься медленно и нехотя
         isLiked ?
-            button.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal) :
-            button.setImage(UIImage(systemName: "suit.heart"), for: .normal)
+            {
+                button.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
+                label.text = String(likes)
+                
+            }() :
+            {
+                UIView.transition(with: button, duration: 0.6, options: .transitionCrossDissolve) { [self] in
+                button.setImage(UIImage(systemName: "suit.heart"), for: .normal) }
+                UIView.transition(with: label, duration: 0.5, options: .transitionCrossDissolve) { [self] in
+                    label.text = String(likes) }
+                
+            }()
 
     }
 }
