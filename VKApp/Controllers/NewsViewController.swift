@@ -15,6 +15,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegate{
     var cellType = [Int: Int]()
     //Dictionary for cells types:
     var cellsTypes = [Int: [Int: Int]]()
+    //var textCellHeightsThatFits = [CGFloat]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +33,7 @@ class NewsViewController: UIViewController, UICollectionViewDelegate{
     
 
     private func getPosts() {
-        posts.append(Post(author: Person(firstname: "Иван", lastname: "Иванов"), date: DateComponents(), text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", images: [UIImage(named: "man01")!, UIImage(named: "man02")!, UIImage(named: "man03")!, UIImage(named: "man04")!, UIImage(named: "woman01")!, UIImage(named: "woman02")!]))
+        posts.append(Post(author: Person(firstname: "Иван", lastname: "Иванов"), date: DateComponents(), text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ", images: [UIImage(named: "man01")!, UIImage(named: "man02")!, UIImage(named: "man03")!, UIImage(named: "man04")!, UIImage(named: "woman01")!, UIImage(named: "woman02")!]))
         posts.append(Post(author: Person(firstname: "Петр", lastname: "Петров"), date: DateComponents(), text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?", images: [UIImage(named: "man02")!, UIImage(named: "woman03")!, UIImage(named: "group01")!]))
         posts.append(Post(author: Person(firstname: "Петр", lastname: "Петров"), date: DateComponents(), text: "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?", images: [UIImage(named: "group01")!, UIImage(named: "woman02")!, UIImage(named: "group03")!, UIImage(named: "man05")!]))
     }
@@ -55,7 +56,7 @@ extension NewsViewController: UICollectionViewDataSource {
             numberOfItems += 1
             cellType[1] = 1 //text
         }
-        if posts[section].isCollapsed {
+        if posts[section].isImagesFolded {
             switch posts[section].images.count {
             case 1:
                 numberOfItems += 1
@@ -106,7 +107,7 @@ extension NewsViewController: UICollectionViewDataSource {
             
             else { return UICollectionViewCell() }
             let rowdecr = posts[indexPath.section].text == nil ? 1 : 2
-            if posts[indexPath.section].isCollapsed && cellsTypes[indexPath.section]?[indexPath.row + 1] == 3 {
+            if posts[indexPath.section].isImagesFolded && cellsTypes[indexPath.section]?[indexPath.row + 1] == 3 {
                 plus = posts[indexPath.section].images.count - indexPath.row + rowdecr - 1
             }
             cell.configure(image: posts[indexPath.section].images[indexPath.row - rowdecr], plus: plus)
@@ -126,17 +127,27 @@ extension NewsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if posts[indexPath.section].isCollapsed {
+        if posts[indexPath.section].isImagesFolded {
             if let celltype = cellsTypes[indexPath.section]?[indexPath.row]{
                 if celltype == 2 {//image
                     for section in 0 ..< posts.count {
-                        posts[section].isCollapsed = true
+                        posts[section].isImagesFolded = true
                     }
-                    posts[indexPath.section].isCollapsed = false
+                    posts[indexPath.section].isImagesFolded = false
                     newsCollection.reloadData()
                 }
             }
-            
+        }
+        if posts[indexPath.section].isTextFolded {
+            if let celltype = cellsTypes[indexPath.section]?[indexPath.row]{
+                if celltype == 1 {//text
+                    for section in 0 ..< posts.count {
+                        posts[section].isTextFolded = true
+                    }
+                    posts[indexPath.section].isTextFolded = false
+                    newsCollection.reloadData()
+                }
+            }
         }
     }
 }

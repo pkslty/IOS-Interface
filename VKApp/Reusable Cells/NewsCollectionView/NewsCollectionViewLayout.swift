@@ -45,18 +45,26 @@ class NewsCollectionViewLayout: UICollectionViewLayout {
                 case 0:
                     attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: authorCellHeight)
                     lastY += authorCellHeight
+                    
                 //Last cell with likes, repost, etc
                 case let count where count == itemsCount - 1:
                     attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: actionsCellHeight)
                     lastY += actionsCellHeight
+                    
                 //Cell with the text if the text exists
                 case 1 where newsController.posts[section].text != nil:
-                    let cellHeightthatFits = UILabel.estimatedSize(newsController.posts[section].text!, targetSize: CGSize(width: cellWidth, height: .zero)).height
-                    attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: cellHeightthatFits)
-                    lastY += cellHeightthatFits
+                    let cellHeightThatFits = UILabel.estimatedSize(newsController.posts[section].text!, targetSize: CGSize(width: cellWidth, height: .zero)).height
+                    //newsController.textCellHeightsThatFits[section] = cellHeightThatFits
+                    var cellHeight = textCellHeight
+                    if !newsController.posts[section].isTextFolded || textCellHeight > cellHeightThatFits {
+                        cellHeight = cellHeightThatFits
+                    }
+                    attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: cellHeight)
+                    lastY += cellHeight
+                    
                 //All other cells with images
                 default:
-                    if newsController.posts[section].isCollapsed {
+                    if newsController.posts[section].isImagesFolded {
                         switch newsController.posts[section].images.count {
                         case 1:
                             attributes.frame = CGRect(x: 0, y: lastY, width: cellWidth, height: imageCellHeight)

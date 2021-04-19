@@ -14,5 +14,6 @@ struct Post {
     var images = [UIImage]()
     var likes: UInt = 0
     var views: Int = 0
-    var isCollapsed: Bool = true
+    var isImagesFolded: Bool = true
+    var isTextFolded: Bool = true
 }
