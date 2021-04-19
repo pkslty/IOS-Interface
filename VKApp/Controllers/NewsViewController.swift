@@ -46,8 +46,9 @@ extension NewsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //Минимум: Автор и количество лайков:
+        
         var cellType = [Int: Int]()
+        //Минимум: Автор и количество лайков:
         var numberOfItems = 2
         cellType[0] = 0 //author
         if posts[section].text != nil {
@@ -88,7 +89,7 @@ extension NewsViewController: UICollectionViewDataSource {
             
             else { return UICollectionViewCell() }
             
-            cell.configure(image: posts[indexPath.section].images[0], name: posts[indexPath.section].author.fullname, date: Date())
+            cell.configure(image: (posts[indexPath.section].author.avatar ?? UIImage(systemName: "person.fill"))!, name: posts[indexPath.section].author.fullname, date: Date())
             
             return cell
         case 1:
