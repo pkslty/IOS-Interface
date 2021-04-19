@@ -8,7 +8,11 @@
 import UIKit
 
 struct Post {
-    var image: UIImage?
+    var author: Person
+    var date: DateComponents
     var text: String?
+    var images = [UIImage]()
     var likes: UInt = 0
+    var views: Int = 0
+    var isCollapsed: Bool = true
 }

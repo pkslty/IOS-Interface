@@ -13,6 +13,7 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
         var sectionName: Character
         var rows: [Int]
     }
+    @IBOutlet weak var tableHeader: UIView!
     
     @IBOutlet weak var groupsTable: UITableView!
     
@@ -25,9 +26,38 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
         //searchBar.delegate = self
         getGroups()
         fillSections()
+        groupsTable.keyboardDismissMode = .onDrag
+
 
     }
-
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if groupsTable.contentOffset.y < 0 {
+            UIView.animate(withDuration: 0.25, animations: { [self] in
+              groupsTable.contentInset.top = 0
+            })
+        } else if groupsTable.contentOffset.y > tableHeader.frame.height {
+            UIView.animate(withDuration: 0.25, animations: { [self] in
+                groupsTable.contentInset.top = -1 * tableHeader.frame.height
+            })
+          }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+            
+        // Подписываемся на два уведомления: одно приходит при появлении клавиатуры
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // Второе — когда она пропадает
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     private func getGroups() {
         if groups == nil {
@@ -64,11 +94,10 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
     }
     
     private func filterRows(by keyword: String) {
-        //Remove leading spaces
+
         fillSections()
         var filtered = [Section]()
         let keyword = keyword.trimmingCharacters(in: .whitespaces).lowercased()
-        print("keyword: \(keyword) count: \(keyword.count)")
         guard keyword.count > 0
         else {
             groupsTable.reloadData()
@@ -82,13 +111,10 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
                 if let string = groups?[row].name {
                     if !keyword.contains(" ") {
                         let words = string.lowercased().components(separatedBy: " ")
-                        print(words)
                         for word in words {
                             if word.contains(keyword) {
                                 if word.first == keyword.first {
-                                    //print("Found! keyword \(keyword) == word \(word) in string \(string)")
                                     filtered[i].rows.append(row)
-                                    
                                     break
                                 }
                             }
@@ -96,16 +122,35 @@ class AllGroupsViewController: UIViewController, UITableViewDelegate {
                     }
                     else if string.trimmingCharacters(in: .whitespaces).lowercased().contains(keyword) {
                         filtered[i].rows.append(row)
-                        break
                     }
                 }
                 
             }
-            print(filtered)
             sections = filtered
             groupsTable.reloadData()
         }
     }
+    
+    //Увеличиваем размер TableView при появлении клавиатуры
+    @objc private func keyboardWasShown(notification: Notification) {
+        
+        let info = notification.userInfo! as NSDictionary
+        let kbSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as!   NSValue).cgRectValue.size
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kbSize.height - view.safeAreaInsets.bottom, right: 0.0)
+        
+        groupsTable.contentInset = contentInsets
+        groupsTable.scrollIndicatorInsets = contentInsets
+    }
+    
+    
+    //Уменьшаем обратно ScrollView при исчезновении клавиатуры
+    @objc private func keyboardWillBeHidden(notification: Notification) {
+        // Устанавливаем отступ внизу TableView, равный 0
+        let contentInsets = UIEdgeInsets.zero
+        groupsTable.contentInset = contentInsets
+    }
+    
+    
     
 }
 
@@ -141,9 +186,6 @@ extension AllGroupsViewController: UITableViewDataSource {
 
 extension AllGroupsViewController: UISearchBarDelegate {
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        //добавить инсеты под клавиату
-    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let searchtext = searchBar.text else { return }
@@ -151,7 +193,7 @@ extension AllGroupsViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //убрать клавиатуру
+        searchBar.endEditing(true)
      }
     
     

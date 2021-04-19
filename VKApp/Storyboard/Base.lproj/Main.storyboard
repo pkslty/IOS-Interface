@@ -285,7 +285,7 @@
                     <connections>
                         <segue destination="Eib-6g-0rw" kind="relationship" relationship="viewControllers" id="pSL-sD-7kM"/>
                         <segue destination="TYW-EB-Kv7" kind="relationship" relationship="viewControllers" id="9dk-Zn-FUn"/>
-                        <segue destination="Uki-PH-LGc" kind="relationship" relationship="viewControllers" id="hr4-WF-mA8"/>
+                        <segue destination="JHJ-Zy-hJW" kind="relationship" relationship="viewControllers" id="hr4-WF-mA8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mzM-cD-GzZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -449,6 +449,7 @@
                                             <outlet property="groupCellText" destination="MGn-ti-Hdt" id="oJR-2I-BE4"/>
                                             <outlet property="groupDescriptionText" destination="jnb-4O-1yh" id="tMs-xU-jVV"/>
                                             <outlet property="groupImage" destination="kfF-Iv-nCP" id="MPB-ZF-HVv"/>
+                                            <segue destination="SEc-Qa-WFC" kind="unwind" unwindAction="addGroupWithSegue:" id="o05-aL-gZn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -464,9 +465,11 @@
                     <navigationItem key="navigationItem" id="HcJ-YE-Zao"/>
                     <connections>
                         <outlet property="groupsTable" destination="G18-Xi-QTF" id="WAz-8P-Z1c"/>
+                        <outlet property="tableHeader" destination="Vue-r5-qLM" id="I3d-ib-jCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ohd-DN-Cbt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="SEc-Qa-WFC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3683" y="-75"/>
         </scene>
@@ -494,18 +497,48 @@
         <!--News-->
         <scene sceneID="ISk-zM-A84">
             <objects>
-                <viewController id="Uki-PH-LGc" sceneMemberID="viewController">
+                <viewController id="Uki-PH-LGc" customClass="NewsViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oGW-U7-A4h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7e6-SX-4lR">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewLayout key="collectionViewLayout" id="M4C-fr-0p8" customClass="NewsCollectionViewLayout" customModule="VKApp" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="coI-YR-mo0">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gvb-nL-kaR">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Uki-PH-LGc" id="0gQ-sj-cv3"/>
+                                    <outlet property="delegate" destination="Uki-PH-LGc" id="S8L-CG-dD0"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="MmQ-bI-toV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="MmQ-bI-toV" firstAttribute="trailing" secondItem="7e6-SX-4lR" secondAttribute="trailing" id="HFI-JZ-vGQ"/>
+                            <constraint firstItem="MmQ-bI-toV" firstAttribute="bottom" secondItem="7e6-SX-4lR" secondAttribute="bottom" id="MfP-mv-jWN"/>
+                            <constraint firstItem="7e6-SX-4lR" firstAttribute="top" secondItem="MmQ-bI-toV" secondAttribute="top" id="aLG-pg-koI"/>
+                            <constraint firstItem="7e6-SX-4lR" firstAttribute="leading" secondItem="MmQ-bI-toV" secondAttribute="leading" id="dso-9w-a3f"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="News" image="newspaper.fill" catalog="system" id="Qjh-5Q-amC"/>
+                    <navigationItem key="navigationItem" title="News" id="daf-Se-Kv4"/>
+                    <connections>
+                        <outlet property="newsCollection" destination="7e6-SX-4lR" id="gZp-Oz-28T"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MB0-7Z-wkq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1877" y="645"/>
+            <point key="canvasLocation" x="2786.9565217391305" y="644.86607142857144"/>
         </scene>
         <!--Friends-->
         <scene sceneID="1UO-xd-8Tv">
@@ -525,6 +558,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pmv-LJ-AII" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1891" y="-769"/>
+        </scene>
+        <!--News-->
+        <scene sceneID="9yW-Hj-iAK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JHJ-Zy-hJW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="News" image="newspaper.fill" catalog="system" id="Qjh-5Q-amC"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PFv-uS-4lt">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Uki-PH-LGc" kind="relationship" relationship="rootViewController" id="CPJ-CT-ocg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kCa-GW-fPS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1876.8115942028987" y="644.86607142857144"/>
         </scene>
     </scenes>
     <resources>
