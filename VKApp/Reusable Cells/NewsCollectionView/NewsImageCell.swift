@@ -7,15 +7,19 @@
 
 import UIKit
 
+
 class NewsImageCell: UICollectionViewCell {
 
     @IBOutlet weak var image: UIImageView!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    func configure(image: UIImage) {
+    
+    @IBOutlet weak var plus: UILabel!
+    
+    func configure(image: UIImage, plus: Int?) {
         self.image.image = image
+        self.plus.isHidden = true
+        guard let plus = plus, plus > 0 else { return}
+        self.plus.isHidden = false
+        self.plus.text = "+\(plus)"
     }
+    
 }
