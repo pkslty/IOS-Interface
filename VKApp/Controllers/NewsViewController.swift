@@ -149,6 +149,7 @@ extension NewsViewController: UICollectionViewDataSource {
                 }
             }
         }
+        newsCollection.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredVertically, animated: true)
     }
 }
 
