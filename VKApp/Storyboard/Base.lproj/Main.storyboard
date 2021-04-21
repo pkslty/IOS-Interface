@@ -160,6 +160,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImage" destination="YMJ-dm-VbI" id="Jhd-ol-PjK"/>
+                                            <outlet property="avatarSize" destination="D63-yC-KxT" id="5MP-cS-rAx"/>
                                             <outlet property="friendName" destination="jyD-oW-Bfo" id="ffw-6X-7tw"/>
                                             <segue destination="dkt-kg-Of1" kind="show" identifier="showFriendPhotos" id="i8D-5i-qFz"/>
                                         </connections>
@@ -229,7 +230,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gQ6-X9-UoH">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gQ6-X9-UoH">
                                             <rect key="frame" x="10" y="10" width="380" height="380"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="380" id="HZd-Yr-0Ot"/>

@@ -36,7 +36,8 @@ import UIKit
     var image: UIImage? {
         didSet {
             setNeedsLayout()
-            draw(bounds)
+            //draw(bounds)
+            
         }
     }
     @IBInspectable var shadowOpacity: CGFloat = 0.9 {
@@ -88,23 +89,32 @@ import UIKit
         layer.masksToBounds = false
         backgroundColor = .clear
         
-        for subview in subviews {
+        /*for subview in subviews {
             subview.removeFromSuperview()
-        }
-        addSubview(imageView)
+        }*/
 
+        let x = bounds.minX
+        let y = bounds.midY
+        let height = bounds.height
+        let width = bounds.width
+        let dx = width * 0.2
+        let dy = height * 0.2
+        
+        let rect = CGRect(x: x+dx, y: y+dy, width: width - 2 * dx, height: height - 2 * dy)
+        
+        
         imageView.image = image
-        imageView.bounds = bounds
-        imageView.frame = bounds
+        imageView.bounds = rect
+        imageView.frame = rect
         imageView.layer.cornerRadius = radius
         imageView.layer.masksToBounds = true
-        imageView.center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        imageView.center = CGPoint(x: bounds.midX, y: bounds.midY)
         imageView.contentMode = .scaleAspectFill
-        addSubview(imageView)
+        //addSubview(imageView)
                 
-        if shadowLayer.superlayer == nil {
+        /*if shadowLayer.superlayer == nil {
             layer.addSublayer(shadowLayer)
-        }
+        }*/
         shadowLayer.bounds = bounds
         shadowLayer.cornerRadius = radius
         shadowLayer.shadowOpacity = 0.9
@@ -112,15 +122,38 @@ import UIKit
         shadowLayer.shadowRadius = shadowRadius
         shadowLayer.shadowOffset = shadowOffset
         shadowLayer.backgroundColor = UIColor.white.cgColor
-        shadowLayer.frame = bounds
+        shadowLayer.frame = frame
         shadowLayer.zPosition = -1
+        
+        
 
+    }
+    
+    func springAnimateBounds(duration: TimeInterval, scale: CGFloat) {
+        
+        var rect: CGRect = bounds
+        draw(rect)
+        
+        print("bounds start = \(bounds)")
+        print("frame start = \(frame)")
+        
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 1) { [self] in
+            let dx = bounds.width * scale
+            let dy = bounds.height * scale
+            bounds = CGRect(x: bounds.minX + dx, y: bounds.minY + dy, width: bounds.width - dx, height: bounds.height - dy)
+            
+            //draw(rect)
+        }
+        //draw(rect)
+        print("bounds end = \(bounds)")
+        print("frame end = \(frame)")
     }
     
     //MARK - Private methods    
     
     private func setUpView(){
         layer.addSublayer(shadowLayer)
+        addSubview(imageView)
     }
     
 }

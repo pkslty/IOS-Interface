@@ -22,8 +22,19 @@ class FriendView: UICollectionViewController {
         
 
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        for cell in collectionView.visibleCells {
+            guard let cell = cell as? FriendPhoto else { continue }
+            cell.animateDiappear()
+        }
+    }
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? FriendPhoto else { return }
+        cell.animateAppear()
+    }
 
-
+    
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -33,10 +44,11 @@ class FriendView: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
+        
         return (friend?.photos.count)!
     }
 
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhoto
         else { return UICollectionViewCell() }
