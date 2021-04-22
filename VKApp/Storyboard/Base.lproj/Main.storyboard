@@ -54,6 +54,16 @@
                                                     <segue destination="Yu5-oO-9R1" kind="presentation" identifier="showMainController" modalPresentationStyle="fullScreen" id="RtD-vl-UcC"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3OF-EB-TlW" customClass="LoadingIndicator" customModule="VKApp" customModuleProvider="target">
+                                                <rect key="frame" x="120" y="503" width="174" height="53"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="dotSize">
+                                                        <real key="value" value="19"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>

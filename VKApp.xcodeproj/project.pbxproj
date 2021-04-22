@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3600EEE026317F4E003D633F /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3600EEDF26317F4E003D633F /* LoadingIndicator.swift */; };
 		3622FC3726298914009977D8 /* FriendsTableCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3622FC3626298914009977D8 /* FriendsTableCellHeader.swift */; };
 		3658BF062620286C0047E093 /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3658BF052620286C0047E093 /* RoundShadowView.swift */; };
 		366F81632621B4AB007122AD /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366F81622621B4AB007122AD /* LikeButton.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3600EEDF26317F4E003D633F /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		3622FC3626298914009977D8 /* FriendsTableCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCellHeader.swift; sourceTree = "<group>"; };
 		3658BF052620286C0047E093 /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowView.swift; sourceTree = "<group>"; };
 		366F81622621B4AB007122AD /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				366F81662623047B007122AD /* CategoriesPicker.swift */,
 				366F81622621B4AB007122AD /* LikeButton.swift */,
 				3658BF052620286C0047E093 /* RoundShadowView.swift */,
+				3600EEDF26317F4E003D633F /* LoadingIndicator.swift */,
 			);
 			path = "Custom View";
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				369631B3261500E100AC37C0 /* AppDelegate.swift in Sources */,
 				368F6AD6262CC566008156D3 /* NewsActionsCell.swift in Sources */,
 				368485F9261BAB1F00CCCAF4 /* Person.swift in Sources */,
+				3600EEE026317F4E003D633F /* LoadingIndicator.swift in Sources */,
 				36B9BDAC26247F7500AC4AD9 /* FriendsViewController.swift in Sources */,
 				369631B5261500E100AC37C0 /* SceneDelegate.swift in Sources */,
 				36B7F6B0261C9E6900D1289D /* FriendPhoto.swift in Sources */,

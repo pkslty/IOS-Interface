@@ -84,7 +84,8 @@ class LoginViewController: UIViewController {
         let eyeTapGesture = UITapGestureRecognizer(target: self, action: #selector(showHidePassword))
         eyeButton?.addGestureRecognizer(eyeTapGesture)
         
-        
+        //let ind = LoadingIndicator(frame: CGRect(x: 200, y: 200, width: 200, height: 200))
+        //view.addSubview(ind)
     }
    
     
