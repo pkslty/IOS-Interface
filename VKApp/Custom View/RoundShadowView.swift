@@ -104,25 +104,25 @@ import UIKit
 
     }
     
-    func springAnimateBounds(duration: TimeInterval, scale: CGFloat) {
+    func springAnimateScale(duration: TimeInterval, scale: CGFloat) {
         
         CATransaction.begin()
             let animation1 = CASpringAnimation(keyPath: "transform.scale")
             animation1.fromValue = 1
-            animation1.toValue = 0.95
+            animation1.toValue = scale
             animation1.mass = 5
             animation1.stiffness = 100
             animation1.initialVelocity = 15
-            animation1.duration = 0.5
+            animation1.duration = duration / 2
             layer.add(animation1, forKey: nil)
             let animation2 = CASpringAnimation(keyPath: "transform.scale")
-            animation2.fromValue = 0.95
+            animation2.fromValue = scale
             animation2.toValue = 1
             animation2.mass = 5
             animation2.stiffness = 100
             animation2.initialVelocity = 15
-            animation2.duration = 0.5
-            animation2.beginTime = CACurrentMediaTime() + 0.4
+            animation2.duration = duration / 2
+            animation2.beginTime = CACurrentMediaTime() + 0.4 * duration 
             layer.add(animation2, forKey: nil)
         CATransaction.commit()
 
