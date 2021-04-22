@@ -18,6 +18,7 @@ class FriendsTableCell: UITableViewCell {
     
     
     func config(name: String?, avatar: UIImage?) {
+
         friendName.text = name
         avatarImage.shadowColor = UIColor.blue.cgColor
         avatarImage.image = avatar
@@ -27,13 +28,22 @@ class FriendsTableCell: UITableViewCell {
         avatarImage.addGestureRecognizer(gestureRecognizer)
         
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImage.image = UIImage(systemName: "person")
+    }
     
-    @objc func avatarTap() {
+    @objc func avatarTap(sender: UILongPressGestureRecognizer) {
+        
+        if sender.state == .began {
+            avatarImage.springAnimateBounds(duration: 2, scale: 0.4)
+        }
         print("avatarTap")
-        //avatarImage.springAnimateBounds(duration: 2, scale: 0.4)
+       
         
         //avatarImage.frame = rect
-        avatarSize.constant = 66
+        //avatarSize.constant = 66
         
     }
 }
