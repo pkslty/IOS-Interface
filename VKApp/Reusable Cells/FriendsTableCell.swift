@@ -37,7 +37,7 @@ class FriendsTableCell: UITableViewCell {
     @objc func avatarTap(sender: UILongPressGestureRecognizer) {
         
         if sender.state == .began {
-            avatarImage.springAnimateScale(duration: 2, scale: 0.95)
+            avatarImage.springAnimateScale(duration: 0.7, scale: 0.96)
         }
         print("avatarTap")
        

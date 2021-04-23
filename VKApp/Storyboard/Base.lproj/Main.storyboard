@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHT-5a-KxL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -218,10 +218,10 @@
             </objects>
             <point key="canvasLocation" x="2771" y="-769"/>
         </scene>
-        <!--Friend View-->
+        <!--Friend Photos View Controller-->
         <scene sceneID="RCm-VL-dxz">
             <objects>
-                <collectionViewController id="dkt-kg-Of1" customClass="FriendView" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="dkt-kg-Of1" customClass="FriendPhotosViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="2" dataMode="prototypes" id="ePW-Oe-74h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -233,7 +233,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPhoto" id="ToB-Fj-WZ5" customClass="FriendPhoto" customModule="VKApp" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPhoto" id="ToB-Fj-WZ5" customClass="FriendPhotoCell" customModule="VKApp" customModuleProvider="target">
                                 <rect key="frame" x="7" y="0.0" width="400" height="400"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="TQu-dV-7Ip">
@@ -269,6 +269,7 @@
                                 <connections>
                                     <outlet property="likeButton" destination="POQ-qj-ac0" id="uNz-ul-Eg7"/>
                                     <outlet property="photo" destination="gQ6-X9-UoH" id="UdG-eY-zbF"/>
+                                    <segue destination="sHT-5a-KxL" kind="show" identifier="showtoPresenterViewController" id="oip-8c-nZd"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -282,6 +283,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZAW-oM-rXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3684" y="-769"/>
+        </scene>
+        <!--Photo Presenter View Controller-->
+        <scene sceneID="uIn-BV-1za">
+            <objects>
+                <viewController id="sHT-5a-KxL" customClass="PhotoPresenterViewController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zzX-tu-rL2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Nom-B9-ebZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="QvS-IL-qrv"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="svh-Vw-ktH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4601" y="-769"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="jnM-fE-cRf">

@@ -91,7 +91,7 @@ import UIKit
         animation6.fromValue = 0
         animation6.toValue = 1
         animation6.duration = 1
-        //animation6.beginTime = animation1.beginTime + 1
+        //animation6.beginTime = animation1.beginTime
         animations.append(animation6)
         
         let animation7 = CABasicAnimation(keyPath: "opacity")

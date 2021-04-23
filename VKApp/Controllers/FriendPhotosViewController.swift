@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendView: UICollectionViewController {
+class FriendPhotosViewController: UICollectionViewController {
 
     var friend: Person?
     var friendNum: Int?
@@ -25,12 +25,19 @@ class FriendView: UICollectionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         for cell in collectionView.visibleCells {
-            guard let cell = cell as? FriendPhoto else { continue }
-            cell.animateDiappear()
+            guard let cell = cell as? FriendPhotoCell else { continue }
+            cell.animateDisappear()
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        for cell in collectionView.visibleCells {
+            guard let cell = cell as? FriendPhotoCell else { continue }
+            cell.animateAppear()
+        }
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? FriendPhoto else { return }
+        guard let cell = cell as? FriendPhotoCell else { return }
         cell.animateAppear()
     }
 
@@ -50,7 +57,7 @@ class FriendView: UICollectionViewController {
 
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhoto
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendPhoto", for: indexPath) as? FriendPhotoCell
         else { return UICollectionViewCell() }
         
         cell.config(image: (friend?.photos[indexPath.row].image)!,
@@ -72,7 +79,7 @@ class FriendView: UICollectionViewController {
     
 }
 
-extension FriendView: UINavigationControllerDelegate {
+extension FriendPhotosViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         (viewController as? FriendsViewController)?.user?.friends[friendNum!].photos = friend!.photos

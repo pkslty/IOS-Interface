@@ -63,7 +63,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "showFriendPhotos" {
-            guard let destinationVC = segue.destination as? FriendView else { return }
+            guard let destinationVC = segue.destination as? FriendPhotosViewController else { return }
             destinationVC.friendNum = sections[friendTable.indexPathForSelectedRow!.section].rows[friendTable.indexPathForSelectedRow!.row]
             destinationVC.friend = user?.friends[destinationVC.friendNum!]
             destinationVC.username = user?.username
