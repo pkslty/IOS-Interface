@@ -63,7 +63,7 @@ import UIKit
     
     private let shadowLayer = CALayer()
     
-    @objc private let imageLayer = CALayer()
+    private let imageLayer = CALayer()
     
     // MARK - Initializers
     
@@ -82,6 +82,8 @@ import UIKit
     override func draw(_ rect: CGRect) {
         
         super.draw(rect)
+        shadowLayer.frame = frame
+        imageLayer.frame = frame
         
         if autoSizeForShadow {
             shadowRadius = radius / 10

@@ -31,101 +31,48 @@ import UIKit
         
     
     private func setupView() {
-        var layers = [CAShapeLayer]()
-        let width = bounds.width
-        let height = bounds.height
-        //let diameter = height / 10
         
-        for i in 1...3 {
-            let shapelayer = CAShapeLayer()
-            shapelayer.path = UIBezierPath(ovalIn: CGRect(x: 0.25 * CGFloat(i) * width, y: 0.5 * height, width: dotSize, height: dotSize)).cgPath
-            shapelayer.fillColor = color.cgColor
-            layer.addSublayer(shapelayer)
-            layers.append(shapelayer)
+        for i in 0...2 {
+            let origin = CGPoint(x: bounds.width*(1/6 + CGFloat(i)/3), y: bounds.height/2)
+            let size = CGSize(width: dotSize, height: dotSize)
+            let subview = UIView(frame: CGRect(origin: origin, size: size))
+            subview.backgroundColor = color
+            subview.layer.cornerRadius = dotSize / 2
+            subview.layer.masksToBounds = true
+            addSubview(subview)
         }
-        
-        
-        
-        
-        CATransaction.begin()
-        var animations = [CABasicAnimation]()
-        //let bt = 0
-        //for i in 0 ... 2 {
-            let animation1 = CABasicAnimation(keyPath: "opacity")
-            animation1.fromValue = 1
-            animation1.toValue = 0
-            //if i > 0 {
-            //    animation1.beginTime = animations[i - 1].beginTime + Double(i) * 0.5
-            //}
-            animation1.duration = 1
-            animations.append(animation1)
-            let animation2 = CABasicAnimation(keyPath: "opacity")
-            animation2.fromValue = 0
-            animation2.toValue = 1
-            animation2.duration = 1
-            animation2.beginTime = animation1.beginTime + 1
-            animations.append(animation2)
-        
-        let animation3 = CABasicAnimation(keyPath: "opacity")
-        animation3.fromValue = 0.5
-        animation3.toValue = 1
-        animation3.duration = 0.5
-        //animation3.beginTime = animation1.beginTime + 0.5
-        animations.append(animation3)
-        
-        let animation4 = CABasicAnimation(keyPath: "opacity")
-        animation4.fromValue = 1
-        animation4.toValue = 0
-        animation4.duration = 1
-        animation4.beginTime = animation1.beginTime + 0.5
-        animations.append(animation4)
-        
-        let animation5 = CABasicAnimation(keyPath: "opacity")
-        animation5.fromValue = 0
-        animation5.toValue = 0.5
-        animation5.duration = 0.5
-        animation5.beginTime = animation4.beginTime + 1
-        animations.append(animation5)
-        
-        let animation6 = CABasicAnimation(keyPath: "opacity")
-        animation6.fromValue = 0
-        animation6.toValue = 1
-        animation6.duration = 1
-        //animation6.beginTime = animation1.beginTime
-        animations.append(animation6)
-        
-        let animation7 = CABasicAnimation(keyPath: "opacity")
-        animation7.fromValue = 1
-        animation7.toValue = 0
-        animation7.duration = 1
-        animation7.beginTime = animation1.beginTime + 1
-        animations.append(animation7)
-        
-       // }
-        
-        for anim in animations {
-            print(anim.beginTime)
+        subviews[1].alpha = 0.5
+        subviews[2].alpha = 0
+        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [.repeat]) {
+        UIView.addKeyframe(withRelativeStartTime: 0,
+                           relativeDuration: 0.5) {
+            self.subviews.first?.alpha = 0
         }
-        
-        let group = CAAnimationGroup()
-        group.animations = [animations[0], animations[1]]
-        group.duration = 2
-        group.repeatCount = .infinity
-        layer.sublayers![0].add(group, forKey: nil)
-        
-        let group1 = CAAnimationGroup()
-        group1.animations = [animations[2], animations[3], animations[4]]
-        group1.duration = 2
-        group1.repeatCount = .infinity
-        layer.sublayers![1].add(group1, forKey: nil)
-        
-        let group2 = CAAnimationGroup()
-        group2.animations = [animations[5], animations[6]]
-        group2.duration = 2
-        group2.repeatCount = .infinity
-        layer.sublayers![2].add(group2, forKey: nil)
-        
-        //layers[1].add(animation2, forKey: nil)
-        CATransaction.commit()
+        UIView.addKeyframe(withRelativeStartTime: 0.5,
+                           relativeDuration: 0.5) {
+            self.subviews.first?.alpha = 1
+        }
+        UIView.addKeyframe(withRelativeStartTime: 0.0,
+                           relativeDuration: 0.25) {
+            self.subviews[1].alpha = 1
+        }
+        UIView.addKeyframe(withRelativeStartTime: 0.25,
+                           relativeDuration: 0.5) {
+            self.subviews[1].alpha = 0
+        }
+        UIView.addKeyframe(withRelativeStartTime: 0.75,
+                           relativeDuration: 0.25) {
+            self.subviews[1].alpha = 0.5
+        }
+        UIView.addKeyframe(withRelativeStartTime: 0.0,
+                           relativeDuration: 0.5) {
+            self.subviews[2].alpha = 1
+        }
+        UIView.addKeyframe(withRelativeStartTime: 0.5,
+                           relativeDuration: 0.5) {
+            self.subviews[2].alpha = 0
+        }
+            
+        }
     }
 }

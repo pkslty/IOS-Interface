@@ -55,7 +55,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3OF-EB-TlW" customClass="LoadingIndicator" customModule="VKApp" customModuleProvider="target">
-                                                <rect key="frame" x="120" y="503" width="174" height="53"/>
+                                                <rect key="frame" x="141" y="507" width="133" height="31"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <userDefinedRuntimeAttributes>
