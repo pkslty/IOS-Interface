@@ -7,21 +7,28 @@
 
 import UIKit
 
+enum AnimationType {
+    case foldFromRight
+    case fold
+    case rotate
+}
+enum AnimatorKind: CGFloat {
+    case left = -1
+    case right = 1
+}
+
 class PhotoPresenterViewController: UIViewController {
 
-    let animationType = 0
+    let animationType: AnimationType = .rotate
+    var animatorKind: AnimatorKind?
     let maxPanDistance: CGFloat = 420
     lazy var mainImageView = UIImageView()
     lazy var secondImageView = UIImageView()
     var propertyAnimator: UIViewPropertyAnimator?
-    //lazy var leftPropertyAnimator = UIViewPropertyAnimator()
-    //lazy var rightPropertyAnimator = UIViewPropertyAnimator()
     var lastX: CGFloat = 0.0
     
     var transformRight = CATransform3D()
     var transformLeft = CATransform3D()
-
-    //var panGR = UIPanGestureRecognizer()
     
     var images = [(image: UIImage, likes: Int, likers: Set<String>)]()
     var currentImage: Int = 0
@@ -29,12 +36,13 @@ class PhotoPresenterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard images.count > 0 else { return }
         
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panTrack))
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-
         view.addGestureRecognizer(panGR)
         view.addGestureRecognizer(tapGR)
+        
         let y = navigationController!.navigationBar.frame.minY + navigationController!.navigationBar.frame.height
         let height = (tabBarController?.tabBar.frame.minY)! - y
         let rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
@@ -42,37 +50,15 @@ class PhotoPresenterViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isOpaque = false
         tabBarController?.tabBar.isHidden = false
-        mainImageView.tag = 0
         mainImageView.frame = rect
         mainImageView.bounds = rect
         
-        guard images.count > 0 else { return }
         mainImageView.image = images[currentImage].image
         mainImageView.frame = rect
         mainImageView.bounds = rect
         mainImageView.contentMode = .scaleAspectFill
         view.addSubview(mainImageView)
         mainImageView.clipsToBounds = true
-
-        var transform = CATransform3DIdentity
-        transform.m34 = -1.0 / 900
-        let rotationRight = CATransform3DRotate(transform, -.pi/1.85, 0, 1, 0)
-        let translationRight = CATransform3DTranslate(transform, 400, 0, -400)
-        transformRight = CATransform3DConcat(rotationRight, translationRight)
-        
-        
-        let rotationLeft = CATransform3DRotate(transform, .pi/1.85, 0, 1, 0)
-        let translationLeft = CATransform3DTranslate(transform, -400, 0, -400)
-        transformLeft = CATransform3DConcat(rotationLeft, translationLeft)
-        
-        print(view.frame)
-        
-        //let scale = CATransform3DMakeScale(0.7, 0.7, 1)
-        
-        //transformRight = CATransform3DConcat(transformRight, scale)
-
-        
-        
     }
     
     @objc func panTrack(sender: UIPanGestureRecognizer) {
@@ -109,8 +95,6 @@ class PhotoPresenterViewController: UIViewController {
                 }
                 x = x > -maxPanDistance ? x : -maxPanDistance
                 if currentImage == images.count - 1 {
-                    //x *= -1
-                    //x = -40 * pow(1+10 / x, x/10)
                     x = x / 2
                 }
                 propertyAnimator?.fractionComplete = x / -maxPanDistance
@@ -122,11 +106,8 @@ class PhotoPresenterViewController: UIViewController {
                 }
                 x = x < maxPanDistance ? x : maxPanDistance
                 if currentImage == 0 {
-                    //x = maxPanDistance * pow((1 / (x+2)), 1/(x+2))
-                    //x = 148 * pow(1 + 100/x, x/100)
                     x = x / 2
                 }
-                //print("x = \(x)")
                 propertyAnimator?.fractionComplete = x / maxPanDistance
             default:
                 lastX = 0
@@ -134,6 +115,7 @@ class PhotoPresenterViewController: UIViewController {
                     propertyAnimator.stopAnimation(false)
                     propertyAnimator.finishAnimation(at: UIViewAnimatingPosition.start)
                     self.propertyAnimator = nil
+                    print("Animator deleted in chaged because translation = \(sender.translation(in: self.view)) lastX = \(lastX)")
                 }
             }
         case .ended:
@@ -143,34 +125,30 @@ class PhotoPresenterViewController: UIViewController {
             //Если меньше половины: если скорость больше предельной - завершаем, иначе - откатываем
             let noReturnSpeed = maxPanDistance
             print("pan ended")
-            switch sender.translation(in: self.view).x {
+            guard let propertyAnimator = propertyAnimator else { break }
+            let x = sender.translation(in: self.view).x
+            let speed = sender.velocity(in: self.view).x
+            switch x {
             case let x where x != 0:
-                if (propertyAnimator!.fractionComplete > 0.5  || //Если больше половины
-                    abs(sender.velocity(in: self.view).x) > noReturnSpeed) && //Кажется тут ошибка: не учтено направление скорости
+                if (propertyAnimator.fractionComplete > 0.5  || //Если больше половины
+                        abs(speed) > noReturnSpeed && speed * animatorKind!.rawValue > 0) && //Скорость больше предельной и соответствует аниматору
                     !(currentImage == 0 && x > 0) && //Если не первая картинка и движение вправо
                     !(currentImage == images.count - 1 && x < 0) //Если не последняя картинка и движение влево
                 {
                     let direction = x < 0 ? 1 : -1
-                    propertyAnimator!.addCompletion { [self] _ in
+                    propertyAnimator.addCompletion { [self] _ in
                         currentImage += direction
-                        //mainImageView = secondImageView
                         swap(&mainImageView, &secondImageView)
-                        print("view.subviews: \(view.subviews)")
                         secondImageView.removeFromSuperview()
                     }
-                    propertyAnimator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+                    propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                 } else {
-                    print("velocity = \(sender.velocity(in: self.view).x)")
-                    propertyAnimator?.isReversed = true
-                    
-                    propertyAnimator?.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+                    propertyAnimator.isReversed = true
+                    propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                 }
             case 0:
-                
-                if let propertyAnimator = propertyAnimator {
                     propertyAnimator.stopAnimation(false)
                     propertyAnimator.finishAnimation(at: UIViewAnimatingPosition.end)
-                }
             default:
                 print("Whatever")
                 
@@ -182,12 +160,12 @@ class PhotoPresenterViewController: UIViewController {
 
     
     func makeLeftAnimator() {
+        animatorKind = .left
         for subview in view.subviews {
          if subview != mainImageView {
              subview.removeFromSuperview()
             }
         }
-        print(view.subviews)
         secondImageView = UIImageView()
         secondImageView.frame = mainImageView.frame
         secondImageView.bounds = mainImageView.bounds
@@ -217,11 +195,12 @@ class PhotoPresenterViewController: UIViewController {
     }
     
     func makeRightAnimator() {
+        animatorKind = .right
         for subview in view.subviews {
             if subview != mainImageView {
                 subview.removeFromSuperview() }
         }
-        print(view.subviews)
+        //print(view.subviews)
         secondImageView = UIImageView()
         secondImageView.frame = mainImageView.frame
         secondImageView.bounds = mainImageView.bounds
@@ -287,19 +266,20 @@ class PhotoPresenterViewController: UIViewController {
         transform.m34 = -1.0 / 900
         
         switch animationType {
-        case let type where type == 1 || type == 2:
+        case let type where type == .fold || type == .foldFromRight:
             
             let translationZ = CATransform3DTranslate(transform, 0, 0, -200)
             let translationRight = CATransform3DTranslate(transform, 420, 0, 0)
             let translationLeft = CATransform3DTranslate(transform, -420, 0, 0)
             
-            if type == 1 {
+            if type == .fold {
                 return [(0.0, 0.5, translationZ, 0.5, 0.5, translationRight),
                     (0.0, 0.5, translationZ, 0.5, 0.5, translationLeft)]
             } else {
                 return [(0.0, 0.5, translationZ, 0.5, 0.5, translationRight),
                     (0.0, 0.5, translationRight, 0.5, 0.5, translationZ)]
             }
+            
             
             
         default:
