@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sHT-5a-KxL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -269,7 +269,7 @@
                                 <connections>
                                     <outlet property="likeButton" destination="POQ-qj-ac0" id="uNz-ul-Eg7"/>
                                     <outlet property="photo" destination="gQ6-X9-UoH" id="UdG-eY-zbF"/>
-                                    <segue destination="sHT-5a-KxL" kind="show" identifier="showtoPresenterViewController" id="oip-8c-nZd"/>
+                                    <segue destination="sHT-5a-KxL" kind="show" identifier="showPresenterViewController" id="oip-8c-nZd"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

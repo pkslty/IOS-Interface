@@ -215,158 +215,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F1EF2BEC-9C8D-417C-AB2F-FA7C0F969731"
+            uuid = "BEE6234D-AE2F-4372-8F29-C17B565A7915"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKApp/Controllers/PhotoPresenterViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "swipeRightTrack(sender:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F1EF2BEC-9C8D-417C-AB2F-FA7C0F969731 - be7fce4b6ea472e4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "VKApp.PhotoPresenterViewController.swipeRightTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
-                  offsetFromSymbolStart = "176">
-               </Location>
-               <Location
-                  uuid = "F1EF2BEC-9C8D-417C-AB2F-FA7C0F969731 - be7fce4b6ea472e4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "VKApp.PhotoPresenterViewController.swipeRightTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
-                  offsetFromSymbolStart = "321">
-               </Location>
-               <Location
-                  uuid = "F1EF2BEC-9C8D-417C-AB2F-FA7C0F969731 - b3a8c880374a8bc4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in VKApp.PhotoPresenterViewController.swipeRightTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "31">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "48D35BFB-9B2B-4B79-8240-51D39C6A88C9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VKApp/Controllers/PhotoPresenterViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
-            landmarkName = "swipeLeftTrack(sender:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "48D35BFB-9B2B-4B79-8240-51D39C6A88C9 - 1b828e78405f883b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "VKApp.PhotoPresenterViewController.swipeLeftTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "113"
-                  endingLineNumber = "113"
-                  offsetFromSymbolStart = "310">
-               </Location>
-               <Location
-                  uuid = "48D35BFB-9B2B-4B79-8240-51D39C6A88C9 - 1b828e78405f883b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "VKApp.PhotoPresenterViewController.swipeLeftTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "113"
-                  endingLineNumber = "113"
-                  offsetFromSymbolStart = "455">
-               </Location>
-               <Location
-                  uuid = "48D35BFB-9B2B-4B79-8240-51D39C6A88C9 - 488865c23a01b390"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in VKApp.PhotoPresenterViewController.swipeLeftTrack(sender: __C.UISwipeGestureRecognizer) -&gt; ()"
-                  moduleName = "VKApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/denizka/Documents/GeekBrains/IOS-Interface/VKApp/Controllers/PhotoPresenterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "114"
-                  endingLineNumber = "114"
-                  offsetFromSymbolStart = "31">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6254FBD9-AF2D-450B-973C-2B024246ED65"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VKApp/Controllers/PhotoPresenterViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "swipeRightTrack(sender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "04616527-52B7-4D40-92D4-CE73E4C3D2F5"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VKApp/Controllers/PhotoPresenterViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "swipeLeftTrack(sender:)"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "panTrack(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

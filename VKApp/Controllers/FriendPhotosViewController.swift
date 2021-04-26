@@ -77,6 +77,13 @@ class FriendPhotosViewController: UICollectionViewController {
 
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationVC = segue.destination as? PhotoPresenterViewController
+        else { return}
+        destinationVC.images = friend!.photos
+        destinationVC.currentImage = (collectionView.indexPathsForSelectedItems?.first!.row)!
+    }
+    
 }
 
 extension FriendPhotosViewController: UINavigationControllerDelegate {
