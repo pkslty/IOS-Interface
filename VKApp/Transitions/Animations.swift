@@ -24,30 +24,32 @@ class PushAnimation: NSObject, UIViewControllerAnimatedTransitioning {
               let destinationView = destination.view
         else { return }
 
-        let conteinerView = transitionContext.containerView
-        conteinerView.frame = sourceView.frame
+        let containerView = transitionContext.containerView
+        containerView.frame = sourceView.frame
         destinationView.frame = sourceView.frame
-        conteinerView.addSubview(destinationView)
+        containerView.addSubview(destinationView)
 
         let rotations = 3.0
         
         CATransaction.begin()
         CATransaction.setCompletionBlock {
-            transitionContext.completeTransition(true)
+        destinationView.backgroundColor = .systemBackground
+        containerView.backgroundColor = .systemBackground
+        transitionContext.completeTransition(true)
         }
-            let animation1 = CABasicAnimation(keyPath: "transform.scale")
-            animation1.fromValue = 0.1
-            animation1.toValue = 1
-            animation1.duration = timeInterval
-            animation1.repeatCount = 1
-            destinationView.layer.add(animation1, forKey: nil)
-            let animation2 = CABasicAnimation(keyPath: "transform.rotation")
-            animation2.fromValue = 0
+        let animation1 = CABasicAnimation(keyPath: "transform.scale")
+        animation1.fromValue = 0.1
+        animation1.toValue = 1
+        animation1.duration = timeInterval
+        animation1.repeatCount = 1
+        destinationView.layer.add(animation1, forKey: nil)
+        let animation2 = CABasicAnimation(keyPath: "transform.rotation")
+        animation2.fromValue = 0
             
-            animation2.toValue = 2 * Double.pi
-            animation2.duration = timeInterval / rotations
-            animation2.repeatCount = Float(rotations)
-            destinationView.layer.add(animation2, forKey: nil)
+        animation2.toValue = 2 * Double.pi
+        animation2.duration = timeInterval / rotations
+        animation2.repeatCount = Float(rotations)
+        destinationView.layer.add(animation2, forKey: nil)
         CATransaction.commit()      
     }
 }
@@ -70,18 +72,20 @@ class PopAnimation: NSObject, UIViewControllerAnimatedTransitioning {
               let destinationView = destination.view
         else { return }
 
-        let conteinerView = transitionContext.containerView
-        conteinerView.frame = sourceView.frame
+        let containerView = transitionContext.containerView
+        containerView.frame = sourceView.frame
         destinationView.frame = sourceView.frame
         destinationView.alpha = 0
         destinationView.backgroundColor = .black
-        conteinerView.insertSubview(destinationView, belowSubview: sourceView)
+        containerView.backgroundColor = .black
+        containerView.insertSubview(destinationView, belowSubview: sourceView)
         
         
         CATransaction.begin()
         CATransaction.setCompletionBlock {
             destinationView.alpha = 1
             destinationView.backgroundColor = .systemBackground
+            containerView.backgroundColor = .systemBackground
             transitionContext.completeTransition(true)
         }
         let animation1 = CABasicAnimation(keyPath: "transform.scale.y")
@@ -133,21 +137,22 @@ class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         let containerView = transitionContext.containerView
         containerView.frame = sourceView.frame
         destinationView.frame = sourceView.frame
-        //let index = IndexPath(row: source.currentImage, section: 1)
+        let index = IndexPath(row: source.currentImage, section: 0)
         //print(index)
         //destination.collectionView.scrollToItem(at: index, at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
         destination.currentImage = source.currentImage
+        print("currentImage in animateTransition: \(destination.currentImage)")
         destinationView.alpha = 0
         containerView.backgroundColor = .systemBackground
         containerView.insertSubview(destinationView, belowSubview: sourceView)
-        print(sourceView.subviews)
+        //print(sourceView.subviews)
         
         UIView.animate(withDuration: timeInterval) {
             destinationView.alpha = 1
         } completion: { complete in
             transitionContext.completeTransition(complete && !transitionContext.transitionWasCancelled)
-            print(source)
-            print(destination)
+            //print(source)
+            //print(destination)
         }
         
         

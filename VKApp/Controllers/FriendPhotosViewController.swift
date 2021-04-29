@@ -35,12 +35,12 @@ class FriendPhotosViewController: UICollectionViewController {
         for cell in collectionView.visibleCells {
             guard let cell = cell as? FriendPhotoCell else { continue }
             //cell.animateAppear()
-            print("ViewWillAppear currentImage = \(currentImage)")
-            let index = IndexPath(row: currentImage, section: 0)
+            /*let index = IndexPath(row: currentImage, section: 0)
             print(index)
-            collectionView.scrollToItem(at: index, at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+            collectionView.scrollToItem(at: index, at: UICollectionView.ScrollPosition.centeredVertically, animated: false)*/
         }
     }
+
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? FriendPhotoCell else { return }

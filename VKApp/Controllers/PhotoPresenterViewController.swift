@@ -36,6 +36,7 @@ class PhotoPresenterViewController: UIViewController {
     var images = [(image: UIImage, likes: Int, likers: Set<String>)]()
     var currentImage: Int = 0
     var rect = CGRect.zero
+    var targetFrame = CGRect.zero
     
     weak var interactiveTransition: PercentDrivenInteractiveTransition?
     
@@ -81,6 +82,7 @@ class PhotoPresenterViewController: UIViewController {
         let translation = sender.translation(in: view)
         let velocity = sender.velocity(in: view)
         
+        
         switch sender.state {
         case .began:
             //Алгоритм:
@@ -93,10 +95,24 @@ class PhotoPresenterViewController: UIViewController {
                 }
                 propertyAnimator = nil
             }
+            print("currentImage in began = \(currentImage)")
             //Если перемещение началось по оси y, а по x нулевое - это смахивание и надо запустить pop
             if translation.y > 0 && translation.x == 0 {
+                
                 interactiveTransition?.isStarted = true
                 navigationController?.popViewController(animated: true)
+                if let destination = navigationController?.topViewController as? FriendPhotosViewController {
+                    let index = IndexPath(row: currentImage, section: 0)
+                    //Move cell in collectionview into center
+                    destination.collectionView.scrollToItem(at: index,
+                                                            at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+                    targetFrame = destination.collectionView.layoutAttributesForItem(at: index)?.frame ?? CGRect.zero
+                    let contentOffset = destination.collectionView.contentOffset
+                    print("targetframe: \(targetFrame) contentOffset: \(contentOffset)")
+                    targetFrame.origin = CGPoint(x: targetFrame.minX, y: targetFrame.minY - contentOffset.y)
+                    //targetFrame.size = CGSize(width: 400, height: 400)
+                }
+                print("target frame in began = \(targetFrame)")
             }
         case .cancelled:
             //Наверное поскольку состояние неопределенное, надо удалить аниматор и все subview и вернуться к
@@ -124,6 +140,7 @@ class PhotoPresenterViewController: UIViewController {
                 mainImageView.transform = transform
                 interactiveTransition.update(progress)
                 interactiveTransition.shouldFinish = progress > 0 && velocity.y >= 0
+                
             } else {
                 switch translation.x {
                 case var x where x < 0 && lastX <= 0:
@@ -164,18 +181,18 @@ class PhotoPresenterViewController: UIViewController {
             if let interactiveTransition = interactiveTransition,
                interactiveTransition.isStarted {
                 interactiveTransition.isStarted = false
-                interactiveTransition.shouldFinish ?
+                interactiveTransition.shouldFinish ? {
+                    interactiveTransition.pause()
                     UIView.animate(withDuration: 0.2, animations: { [self] in
-                        mainImageView.center = view.center
-                        mainImageView.frame = CGRect.zero
-                    }, completion: { _ in interactiveTransition.finish() }) :
+                        mainImageView.center = CGPoint(x: targetFrame.midX, y: targetFrame.midY)
+                        mainImageView.frame = targetFrame
+                    }, completion: { _ in interactiveTransition.finish() }) }():
                     UIView.animate(withDuration: 0.2, animations: { [self] in
                         mainImageView.center = CGPoint(x: centerX, y: centerY)
                         mainImageView.frame = rect
                     }, completion: { _ in interactiveTransition.cancel()
                         print("cancelled")
                     })
-                //interactiveTransition.
                 
             } else {
                 let noReturnSpeed = maxPanDistance
