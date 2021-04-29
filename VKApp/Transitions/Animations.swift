@@ -229,7 +229,7 @@ class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         containerView.frame = sourceView.frame
         destinationView.frame = sourceView.frame
         destinationView.alpha = 0
-        containerView.addSubview(destinationView)
+        containerView.insertSubview(destinationView, belowSubview: sourceView)
         var targetFrame = CGRect.zero
         
         let index = IndexPath(row: source.currentImage, section: 0)
