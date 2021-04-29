@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -132,7 +132,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendsTableCell" id="dN6-P0-Q1c" customClass="FriendsTableCell" customModule="VKApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="77.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="77.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dN6-P0-Q1c" id="zSo-Qg-5Dd">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="77.5"/>
@@ -330,7 +330,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="131" id="aJh-ve-fcx" customClass="GroupCell" customModule="VKApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="131"/>
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="131"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aJh-ve-fcx" id="816-TO-dsJ">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="131"/>
@@ -434,7 +434,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" rowHeight="131" id="aTu-pR-Xys" customClass="GroupCell" customModule="VKApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="414" height="131"/>
+                                        <rect key="frame" x="0.0" y="68.5" width="414" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aTu-pR-Xys" id="8v6-Fr-eVS">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="131"/>
@@ -571,7 +571,7 @@
         <!--Friends-->
         <scene sceneID="1UO-xd-8Tv">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eib-6g-0rw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Eib-6g-0rw" customClass="NavigationController" customModule="VKApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Friends" image="person.2.fill" catalog="system" id="7P6-rK-zCP"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SxI-8p-ANO">

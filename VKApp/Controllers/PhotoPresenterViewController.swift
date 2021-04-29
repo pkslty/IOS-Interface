@@ -7,18 +7,19 @@
 
 import UIKit
 
-enum AnimationType {
-    case foldFromRight
-    case fold
-    case rotate
-}
-enum AnimatorKind: CGFloat {
-    case left = -1
-    case right = 1
-}
 
 class PhotoPresenterViewController: UIViewController {
 
+    enum AnimationType {
+        case foldFromRight
+        case fold
+        case rotate
+    }
+    enum AnimatorKind: CGFloat {
+        case left = -1
+        case right = 1
+    }
+    
     let animationType: AnimationType = .rotate
     var animatorKind: AnimatorKind?
     let maxPanDistance: CGFloat = 420
@@ -26,12 +27,18 @@ class PhotoPresenterViewController: UIViewController {
     lazy var secondImageView = UIImageView()
     var propertyAnimator: UIViewPropertyAnimator?
     var lastX: CGFloat = 0.0
+    var centerX:CGFloat = 0.0
+    var centerY: CGFloat = 0.0
     
     var transformRight = CATransform3D()
     var transformLeft = CATransform3D()
     
     var images = [(image: UIImage, likes: Int, likers: Set<String>)]()
     var currentImage: Int = 0
+    var rect = CGRect.zero
+    
+    weak var interactiveTransition: PercentDrivenInteractiveTransition?
+    
 
     
     override func viewDidLoad() {
@@ -42,10 +49,11 @@ class PhotoPresenterViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         view.addGestureRecognizer(panGR)
         view.addGestureRecognizer(tapGR)
-        
         let y = navigationController!.navigationBar.frame.minY + navigationController!.navigationBar.frame.height
+        //let y:CGFloat = 100.0
+        //let height: CGFloat = 800.0
         let height = (tabBarController?.tabBar.frame.minY)! - y
-        let rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
+        rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isOpaque = false
@@ -57,11 +65,21 @@ class PhotoPresenterViewController: UIViewController {
         mainImageView.frame = rect
         mainImageView.bounds = rect
         mainImageView.contentMode = .scaleAspectFill
+        view.backgroundColor = .clear
+        centerX = mainImageView.center.x
+        centerY = mainImageView.center.y
         view.addSubview(mainImageView)
         mainImageView.clipsToBounds = true
+        if let navigationController = navigationController as? NavigationController {
+            //navigationController.recognizer.delegate = self
+            interactiveTransition = navigationController.interactiveTransition
+        }
     }
     
     @objc func panTrack(sender: UIPanGestureRecognizer) {
+        
+        let translation = sender.translation(in: view)
+        let velocity = sender.velocity(in: view)
         
         switch sender.state {
         case .began:
@@ -75,9 +93,19 @@ class PhotoPresenterViewController: UIViewController {
                 }
                 propertyAnimator = nil
             }
+            //Если перемещение началось по оси y, а по x нулевое - это смахивание и надо запустить pop
+            if translation.y > 0 && translation.x == 0 {
+                interactiveTransition?.isStarted = true
+                navigationController?.popViewController(animated: true)
+            }
         case .cancelled:
             //Наверное поскольку состояние неопределенное, надо удалить аниматор и все subview и вернуться к
             //состоянию как после viewDidLoad
+            if let interactiveTransition = interactiveTransition,
+               interactiveTransition.isStarted {
+                interactiveTransition.isStarted = false
+                interactiveTransition.cancel()
+            }
             break
         
         case .changed:
@@ -86,73 +114,100 @@ class PhotoPresenterViewController: UIViewController {
             //1. Делаем левый/правый аниматор, если аниматор отсутствует
             //2. Двигаем анимацию в соответствии с перемещением.
             //Движение нулевое: если аниматор ненулевой - завершаем его и удаляем
-            switch sender.translation(in: self.view).x {
-            case var x where x < 0 && lastX <= 0:
-                lastX = x
-                if propertyAnimator == nil {
-                    makeLeftAnimator()
-                    print("made left")
+            if let interactiveTransition = interactiveTransition,
+               interactiveTransition.isStarted {
+                let progress = max(0, translation.y / view.frame.height)
+                //print("trx: \(translation.x) try: \(translation.y) pr: \(progress) center: \(mainImageView.center) velosity: \(velocity)")
+                mainImageView.center.x = centerX + translation.x
+                mainImageView.center.y = centerY + translation.y
+                let transform = CGAffineTransform(scaleX: 1 - progress / 2, y: 1 - progress / 2)
+                mainImageView.transform = transform
+                interactiveTransition.update(progress)
+                interactiveTransition.shouldFinish = progress > 0 && velocity.y >= 0
+            } else {
+                switch translation.x {
+                case var x where x < 0 && lastX <= 0:
+                    lastX = x
+                    if propertyAnimator == nil {
+                        makeLeftAnimator()
+                    }
+                    x = x > -maxPanDistance ? x : -maxPanDistance
+                    if currentImage == images.count - 1 {
+                        x = x / 2
+                    }
+                    propertyAnimator?.fractionComplete = x / -maxPanDistance
+                case var x where x > 0 && lastX >= 0:
+                    lastX = x
+                    if propertyAnimator == nil {
+                        makeRightAnimator()
+                    }
+                    x = x < maxPanDistance ? x : maxPanDistance
+                    if currentImage == 0 {
+                        x = x / 2
+                    }
+                    propertyAnimator?.fractionComplete = x / maxPanDistance
+                default:
+                    lastX = 0
+                    if let propertyAnimator = propertyAnimator {
+                        propertyAnimator.stopAnimation(false)
+                        propertyAnimator.finishAnimation(at: UIViewAnimatingPosition.start)
+                        self.propertyAnimator = nil
+                    }
                 }
-                x = x > -maxPanDistance ? x : -maxPanDistance
-                if currentImage == images.count - 1 {
-                    x = x / 2
-                }
-                propertyAnimator?.fractionComplete = x / -maxPanDistance
-            case var x where x > 0 && lastX >= 0:
-                lastX = x
-                if propertyAnimator == nil {
-                    makeRightAnimator()
-                    print("made right")
-                }
-                x = x < maxPanDistance ? x : maxPanDistance
-                if currentImage == 0 {
-                    x = x / 2
-                }
-                propertyAnimator?.fractionComplete = x / maxPanDistance
-            default:
-                lastX = 0
-                if let propertyAnimator = propertyAnimator {
-                    propertyAnimator.stopAnimation(false)
-                    propertyAnimator.finishAnimation(at: UIViewAnimatingPosition.start)
-                    self.propertyAnimator = nil
-                    print("Animator deleted in chaged because translation = \(sender.translation(in: self.view)) lastX = \(lastX)")
-                }
+                
             }
         case .ended:
             //Алгоритм:
             //Если движение нулевое и аниматор ненулевой - завершаем его и обнуляем
             //Если аниматор больше половины - завершаем его
             //Если меньше половины: если скорость больше предельной - завершаем, иначе - откатываем
-            let noReturnSpeed = maxPanDistance
-            print("pan ended")
-            guard let propertyAnimator = propertyAnimator else { break }
-            let x = sender.translation(in: self.view).x
-            let speed = sender.velocity(in: self.view).x
-            switch x {
-            case let x where x != 0:
-                if (propertyAnimator.fractionComplete > 0.5  || //Если больше половины
-                        abs(speed) > noReturnSpeed && speed * animatorKind!.rawValue > 0) && //Скорость больше предельной и соответствует аниматору
-                    !(currentImage == 0 && x > 0) && //Если не первая картинка и движение вправо
-                    !(currentImage == images.count - 1 && x < 0) //Если не последняя картинка и движение влево
-                {
-                    let direction = x < 0 ? 1 : -1
-                    propertyAnimator.addCompletion { [self] _ in
-                        currentImage += direction
-                        swap(&mainImageView, &secondImageView)
-                        secondImageView.removeFromSuperview()
+            if let interactiveTransition = interactiveTransition,
+               interactiveTransition.isStarted {
+                interactiveTransition.isStarted = false
+                interactiveTransition.shouldFinish ?
+                    UIView.animate(withDuration: 0.2, animations: { [self] in
+                        mainImageView.center = view.center
+                        mainImageView.frame = CGRect.zero
+                    }, completion: { _ in interactiveTransition.finish() }) :
+                    UIView.animate(withDuration: 0.2, animations: { [self] in
+                        mainImageView.center = CGPoint(x: centerX, y: centerY)
+                        mainImageView.frame = rect
+                    }, completion: { _ in interactiveTransition.cancel()
+                        print("cancelled")
+                    })
+                //interactiveTransition.
+                
+            } else {
+                let noReturnSpeed = maxPanDistance
+                guard let propertyAnimator = propertyAnimator else { break }
+                let x = translation.x
+                let speed = velocity.x
+                switch x {
+                case let x where x != 0:
+                    if (propertyAnimator.fractionComplete > 0.5  || //Если больше половины
+                            abs(speed) > noReturnSpeed && speed * animatorKind!.rawValue > 0) && //Скорость больше предельной и соответствует направлению аниматора
+                        !(currentImage == 0 && x > 0) && //Если не первая картинка и движение вправо
+                        !(currentImage == images.count - 1 && x < 0) //Если не последняя картинка и движение влево
+                    {
+                        let direction = x < 0 ? 1 : -1
+                        propertyAnimator.addCompletion { [self] _ in
+                            currentImage += direction
+                            swap(&mainImageView, &secondImageView)
+                            secondImageView.removeFromSuperview()
+                        }
+                        propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+                    } else {
+                        propertyAnimator.isReversed = true
+                        propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                     }
-                    propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-                } else {
-                    propertyAnimator.isReversed = true
-                    propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-                }
-            case 0:
+                case 0:
                     propertyAnimator.stopAnimation(false)
                     propertyAnimator.finishAnimation(at: UIViewAnimatingPosition.end)
-            default:
-                print("Whatever")
-                
+                default:
+                    print("Whatever")
+                }
             }
+            
         default:
             break
         }
@@ -231,26 +286,28 @@ class PhotoPresenterViewController: UIViewController {
     }
     
     @objc func tapAction() {
+        //navigationController?.popViewController(animated: false)
         if let navigationController = navigationController,
            navigationController.navigationBar.isHidden {
+            let y = navigationController.navigationBar.frame.minY + navigationController.navigationBar.frame.height
+            let height = (tabBarController?.tabBar.frame.minY)! - y
+            rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
             UIView.animate(withDuration: 0.2, animations: {
                 [self] in
                     navigationController.navigationBar.isOpaque = false
                     tabBarController?.tabBar.isOpaque = false
-                    let y = navigationController.navigationBar.frame.minY + navigationController.navigationBar.frame.height
-                    let height = (tabBarController?.tabBar.frame.minY)! - y
-                    let rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
                     mainImageView.frame = rect
             }, completion: { [self] _ in
                 navigationController.navigationBar.isHidden = false
                 tabBarController?.tabBar.isHidden = false
             })
         } else {
+            rect = view.frame
             UIView.animate(withDuration: 0.2, animations: {
                 [self] in
                 navigationController?.navigationBar.isOpaque = true
                 tabBarController?.tabBar.isOpaque = true
-                mainImageView.frame = view.frame
+                mainImageView.frame = rect
             }, completion: { [self] _ in
                 navigationController?.navigationBar.isHidden = true
                 tabBarController?.tabBar.isHidden = true
@@ -301,3 +358,8 @@ class PhotoPresenterViewController: UIViewController {
     
 }
 
+extension PhotoPresenterViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        true
+    }
+}

@@ -12,13 +12,15 @@ class FriendPhotosViewController: UICollectionViewController {
     var friend: Person?
     var friendNum: Int?
     var username: String?
+    let animator = PushAnimation()
+    var currentImage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //print(friend)
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "friendPhoto")
         //print(self.parent?.next)
-        navigationController?.delegate = self
+        //navigationController?.delegate = self
         
 
     }
@@ -26,13 +28,17 @@ class FriendPhotosViewController: UICollectionViewController {
     override func viewWillDisappear(_ animated: Bool) {
         for cell in collectionView.visibleCells {
             guard let cell = cell as? FriendPhotoCell else { continue }
-            cell.animateDisappear()
+            //cell.animateDisappear()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
         for cell in collectionView.visibleCells {
             guard let cell = cell as? FriendPhotoCell else { continue }
-            cell.animateAppear()
+            //cell.animateAppear()
+            print("ViewWillAppear currentImage = \(currentImage)")
+            let index = IndexPath(row: currentImage, section: 0)
+            print(index)
+            collectionView.scrollToItem(at: index, at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
         }
     }
     
@@ -74,7 +80,6 @@ class FriendPhotosViewController: UICollectionViewController {
         let _ = likeButton.isLiked ?
             friend?.photos[likeButton.tag].likers.insert(username!) :
             friend?.photos[likeButton.tag].likers.remove(username!)
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -82,6 +87,8 @@ class FriendPhotosViewController: UICollectionViewController {
         else { return}
         destinationVC.images = friend!.photos
         destinationVC.currentImage = (collectionView.indexPathsForSelectedItems?.first!.row)!
+        //destinationVC.navigationController = navigationController
+        //destinationVC.transitioningDelegate = self
     }
     
 }
@@ -91,5 +98,15 @@ extension FriendPhotosViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         (viewController as? FriendsViewController)?.user?.friends[friendNum!].photos = friend!.photos
     }
+}
+
+extension FriendPhotosViewController: UIViewControllerTransitioningDelegate {
+    
+    
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        animator
+    }
+    
 }
 
