@@ -263,7 +263,6 @@ class PhotoPresenterViewController: UIViewController {
             if subview != mainImageView {
                 subview.removeFromSuperview() }
         }
-        //print(view.subviews)
         secondImageView = UIImageView()
         secondImageView.frame = mainImageView.frame
         secondImageView.bounds = mainImageView.bounds

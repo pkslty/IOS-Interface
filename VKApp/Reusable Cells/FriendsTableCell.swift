@@ -39,7 +39,6 @@ class FriendsTableCell: UITableViewCell {
         if sender.state == .began {
             avatarImage.springAnimateScale(duration: 0.7, scale: 0.96)
         }
-        print("avatarTap")
        
         
         //avatarImage.frame = rect

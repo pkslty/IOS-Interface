@@ -99,7 +99,6 @@ import UIKit
         shadowLayer.shadowColor = shadowColor
         shadowLayer.shadowRadius = shadowRadius
         shadowLayer.shadowOffset = shadowOffset
-        print(radius)
 
         
         

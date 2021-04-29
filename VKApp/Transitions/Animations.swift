@@ -137,11 +137,7 @@ class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         let containerView = transitionContext.containerView
         containerView.frame = sourceView.frame
         destinationView.frame = sourceView.frame
-        let index = IndexPath(row: source.currentImage, section: 0)
-        //print(index)
-        //destination.collectionView.scrollToItem(at: index, at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
-        destination.currentImage = source.currentImage
-        print("currentImage in animateTransition: \(destination.currentImage)")
+        //destination.currentImage = source.currentImage
         destinationView.alpha = 0
         containerView.backgroundColor = .systemBackground
         containerView.insertSubview(destinationView, belowSubview: sourceView)
@@ -151,8 +147,6 @@ class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning 
             destinationView.alpha = 1
         } completion: { complete in
             transitionContext.completeTransition(complete && !transitionContext.transitionWasCancelled)
-            //print(source)
-            //print(destination)
         }
         
         
