@@ -33,13 +33,13 @@ class PushAnimation: NSObject, UIViewControllerAnimatedTransitioning {
         
         CATransaction.begin()
         CATransaction.setCompletionBlock {
-        //destinationView.backgroundColor = .systemBackground
-        containerView.backgroundColor = .systemBackground
-        transitionContext.completeTransition(true)
+            containerView.backgroundColor = .systemBackground
+            
+            transitionContext.completeTransition(true)
         }
-        let animation1 = CABasicAnimation(keyPath: "transform.scale")
-        animation1.fromValue = 0.1
-        animation1.toValue = 1
+            let animation1 = CABasicAnimation(keyPath: "transform.scale")
+            animation1.fromValue = 0.1
+            animation1.toValue = 1
             animation1.duration = timeInterval
             animation1.repeatCount = 1
             destinationView.layer.add(animation1, forKey: nil)
@@ -48,8 +48,8 @@ class PushAnimation: NSObject, UIViewControllerAnimatedTransitioning {
             
             animation2.toValue = 2 * Double.pi
             animation2.duration = timeInterval / rotations
-        animation2.repeatCount = Float(rotations)
-        destinationView.layer.add(animation2, forKey: nil)
+            animation2.repeatCount = Float(rotations)
+            destinationView.layer.add(animation2, forKey: nil)
         CATransaction.commit()      
     }
 }

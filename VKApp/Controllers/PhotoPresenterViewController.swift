@@ -51,8 +51,6 @@ class PhotoPresenterViewController: UIViewController {
         view.addGestureRecognizer(panGR)
         view.addGestureRecognizer(tapGR)
         let y = navigationController!.navigationBar.frame.minY + navigationController!.navigationBar.frame.height
-        //let y:CGFloat = 100.0
-        //let height: CGFloat = 800.0
         let height = (tabBarController?.tabBar.frame.minY)! - y
         rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
         navigationController?.navigationBar.isOpaque = false
@@ -72,7 +70,6 @@ class PhotoPresenterViewController: UIViewController {
         view.addSubview(mainImageView)
         mainImageView.clipsToBounds = true
         if let navigationController = navigationController as? NavigationController {
-            //navigationController.recognizer.delegate = self
             interactiveTransition = navigationController.interactiveTransition
         }
     }
@@ -95,7 +92,6 @@ class PhotoPresenterViewController: UIViewController {
                 }
                 propertyAnimator = nil
             }
-            print("currentImage in began = \(currentImage)")
             //Если перемещение началось по оси y, а по x нулевое - это смахивание и надо запустить pop
             if translation.y > 0 && translation.x == 0 {
                 
@@ -108,11 +104,8 @@ class PhotoPresenterViewController: UIViewController {
                                                             at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
                     targetFrame = destination.collectionView.layoutAttributesForItem(at: index)?.frame ?? CGRect.zero
                     let contentOffset = destination.collectionView.contentOffset
-                    print("targetframe: \(targetFrame) contentOffset: \(contentOffset)")
                     targetFrame.origin = CGPoint(x: targetFrame.minX, y: targetFrame.minY - contentOffset.y)
-                    //targetFrame.size = CGSize(width: 400, height: 400)
                 }
-                print("target frame in began = \(targetFrame)")
             }
         case .cancelled:
             //Наверное поскольку состояние неопределенное, надо удалить аниматор и все subview и вернуться к
@@ -133,7 +126,6 @@ class PhotoPresenterViewController: UIViewController {
             if let interactiveTransition = interactiveTransition,
                interactiveTransition.isStarted {
                 let progress = max(0, translation.y / view.frame.height)
-                //print("trx: \(translation.x) try: \(translation.y) pr: \(progress) center: \(mainImageView.center) velosity: \(velocity)")
                 mainImageView.center.x = centerX + translation.x
                 mainImageView.center.y = centerY + translation.y
                 let transform = CGAffineTransform(scaleX: 1 - progress / 2, y: 1 - progress / 2)
@@ -191,7 +183,6 @@ class PhotoPresenterViewController: UIViewController {
                         mainImageView.center = CGPoint(x: centerX, y: centerY)
                         mainImageView.frame = rect
                     }, completion: { _ in interactiveTransition.cancel()
-                        print("cancelled")
                     })
                 
             } else {
@@ -233,11 +224,11 @@ class PhotoPresenterViewController: UIViewController {
     
     func makeLeftAnimator() {
         animatorKind = .left
-        for subview in view.subviews {
+        /*for subview in view.subviews {
          if subview != mainImageView {
              subview.removeFromSuperview()
             }
-        }
+        }*/
         secondImageView = UIImageView()
         secondImageView.frame = mainImageView.frame
         secondImageView.bounds = mainImageView.bounds
