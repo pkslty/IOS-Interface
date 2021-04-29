@@ -170,7 +170,7 @@ class FriendPhotoPushAnimation: NSObject, UIViewControllerAnimatedTransitioning 
 }
 
 
-class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning {
+class FriendPhotosInteractivePopAnimation: NSObject, UIViewControllerAnimatedTransitioning {
  
     let timeInterval: TimeInterval = 0.0
     
@@ -204,5 +204,57 @@ class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning 
         }
         
         
+    }
+}
+
+class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning {
+ 
+    let timeInterval: TimeInterval = 0.5
+    
+    
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        timeInterval
+    }
+
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        
+        guard let source = transitionContext.viewController(forKey: .from) as? PhotoPresenterViewController,
+              let sourceView = source.view,
+              let destination = transitionContext.viewController(forKey: .to) as? FriendPhotosViewController,
+              let destinationView = destination.view
+        else { return }
+
+        let containerView = transitionContext.containerView
+        containerView.frame = sourceView.frame
+        destinationView.frame = sourceView.frame
+        destinationView.alpha = 0
+        containerView.addSubview(destinationView)
+        var targetFrame = CGRect.zero
+        
+        let index = IndexPath(row: source.currentImage, section: 0)
+
+        if let collectionView = destination.collectionView,
+           let rect = collectionView.layoutAttributesForItem(at: index)?.frame {
+            destination.collectionView.scrollToItem(at: index,
+                                                    at: UICollectionView.ScrollPosition.centeredVertically, animated: false)
+            let contentOffset = collectionView.contentOffset
+            targetFrame = rect
+            targetFrame.origin = CGPoint(x: targetFrame.minX, y: targetFrame.minY - contentOffset.y)
+        }
+
+        UIView.animateKeyframes(withDuration: timeInterval, delay: 0, options: .calculationModeLinear) {
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1.0,
+                               animations: {destinationView.alpha = 1})
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1.0,
+                               animations: {source.mainImageView.frame = targetFrame})
+        } completion: { complete in
+            transitionContext.completeTransition(complete)
+        }
+
+        
+       
     }
 }

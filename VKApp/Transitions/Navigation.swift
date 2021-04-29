@@ -12,6 +12,7 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
     let pushAnimator = PushAnimation()
     let popAnimator = PopAnimation()
     let friendPhotoPushAnimator = FriendPhotoPushAnimation()
+    let friendPhotosInteractivePopAnimator = FriendPhotosInteractivePopAnimation()
     let friendPhotosPopAnimator = FriendPhotosPopAnimation()
     var lastVisibleViewController: UIViewController?
     var recognizer = UIPanGestureRecognizer()
@@ -51,7 +52,11 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
             }
         case .pop:
             if let _ = toVC as? FriendPhotosViewController {
-                return friendPhotosPopAnimator
+                if interactiveTransition.isStarted  {
+                    return friendPhotosInteractivePopAnimator
+                } else {
+                    return friendPhotosPopAnimator
+                }
             } else {
                 return popAnimator
             }
