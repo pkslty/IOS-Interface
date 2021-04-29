@@ -115,6 +115,60 @@ class PercentDrivenInteractiveTransition: UIPercentDrivenInteractiveTransition {
     var shouldFinish: Bool = false
 }
 
+class FriendPhotoPushAnimation: NSObject, UIViewControllerAnimatedTransitioning {
+ 
+    let timeInterval: TimeInterval = 0.5
+    
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        timeInterval
+    }
+
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        
+        guard let source = transitionContext.viewController(forKey: .from) as? FriendPhotosViewController,
+              let sourceView = source.view,
+              let destination = transitionContext.viewController(forKey: .to) as? PhotoPresenterViewController,
+              let destinationView = destination.view
+        else { return }
+
+        let containerView = transitionContext.containerView
+        containerView.frame = sourceView.frame
+        destinationView.frame = sourceView.frame
+        containerView.addSubview(destinationView)
+        var sourceFrame = CGRect.zero
+        var targetFrame = CGRect.zero
+        
+        if let navigationController = destination.navigationController,
+           let tabBarController = destination.tabBarController,
+           let collectionView = source.collectionView,
+           let index = collectionView.indexPathsForSelectedItems?.first,
+           let rect = collectionView.layoutAttributesForItem(at: index)?.frame {
+            let contentOffset = collectionView.contentOffset
+            sourceFrame = rect
+            sourceFrame.origin = CGPoint(x: sourceFrame.minX, y: sourceFrame.minY - contentOffset.y)
+            
+            let y = navigationController.navigationBar.frame.minY + navigationController.navigationBar.frame.height
+            let height = tabBarController.tabBar.frame.minY - y
+            targetFrame = CGRect(x: 0, y: y, width: destination.view.frame.width, height: height)
+        }
+        destination.mainImageView.frame = sourceFrame
+        UIView.animateKeyframes(withDuration: timeInterval, delay: 0, options: .calculationModeLinear) {
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1.0,
+                               animations: {sourceView.alpha = 0})
+            UIView.addKeyframe(withRelativeStartTime: 0,
+                               relativeDuration: 1.0,
+                               animations: {destination.mainImageView.frame = targetFrame})
+        } completion: { complete in
+            transitionContext.completeTransition(complete)
+        }
+
+        
+       
+    }
+}
+
 
 class FriendPhotosPopAnimation: NSObject, UIViewControllerAnimatedTransitioning {
  
