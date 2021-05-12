@@ -199,6 +199,7 @@ extension FriendsViewController: UITableViewDataSource {
         user.friends[6].photos.append((UIImage(named: "man02")!, 0, Set<String>()))
         user.friends[6].photos.append((UIImage(named: "woman03")!, 0, Set<String>()))
         user.friends[6].photos.append((UIImage(named: "group01")!, 0, Set<String>()))
+        user.friends[6].photos.append((UIImage(named: "woman04")!, 0, Set<String>()))
     }
     
 }

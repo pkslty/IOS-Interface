@@ -159,7 +159,7 @@ class FriendPhotoPushAnimation: NSObject, UIViewControllerAnimatedTransitioning 
                                animations: {sourceView.alpha = 0})
             UIView.addKeyframe(withRelativeStartTime: 0,
                                relativeDuration: 1.0,
-                               animations: {destination.mainImageView.frame = targetFrame})
+                               animations: {destination.mainImageView.frame = /*targetFrame*/destination.rect})
         } completion: { complete in
             transitionContext.completeTransition(complete)
         }

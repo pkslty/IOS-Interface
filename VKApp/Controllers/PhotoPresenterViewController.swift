@@ -39,6 +39,8 @@ class PhotoPresenterViewController: UIViewController {
     var targetFrame = CGRect.zero
     
     weak var interactiveTransition: PercentDrivenInteractiveTransition?
+    var isZooming = false
+    var currentImageScale : CGFloat = 1.0
     
 
     
@@ -48,22 +50,33 @@ class PhotoPresenterViewController: UIViewController {
         
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panTrack))
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        tapGR.name = "oneTap"
+        tapGR.delegate = self
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(doubleTapAction))
+        doubleTapGR.numberOfTapsRequired = 2
+        doubleTapGR.name = "doubleTap"
+        doubleTapGR.delegate = self
+        let pinchGR = UIPinchGestureRecognizer(target: self, action: #selector(pinchAction))
+        //doubleTapGR.n
+        //let doubleTapGR = gestu
         view.addGestureRecognizer(panGR)
         view.addGestureRecognizer(tapGR)
-        let y = navigationController!.navigationBar.frame.minY + navigationController!.navigationBar.frame.height
-        let height = (tabBarController?.tabBar.frame.minY)! - y
-        rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
+        view.addGestureRecognizer(doubleTapGR)
+        view.addGestureRecognizer(pinchGR)
+        rect = calculateRect(image: images[currentImage].image)
+        print("rect is \(rect)")
+        //rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
         navigationController?.navigationBar.isOpaque = false
         navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isOpaque = false
         tabBarController?.tabBar.isHidden = false
-        mainImageView.frame = rect
-        mainImageView.bounds = rect
         
         mainImageView.image = images[currentImage].image
         mainImageView.frame = rect
         mainImageView.bounds = rect
-        mainImageView.contentMode = .scaleAspectFill
+        print("mainImageView frame: \(mainImageView.frame)")
+        mainImageView.contentMode = .scaleAspectFit
+        print("mainImageView frame: \(mainImageView.frame)")
         view.backgroundColor = .clear
         centerX = mainImageView.center.x
         centerY = mainImageView.center.y
@@ -72,6 +85,7 @@ class PhotoPresenterViewController: UIViewController {
         if let navigationController = navigationController as? NavigationController {
             interactiveTransition = navigationController.interactiveTransition
         }
+        print("mainImageView frame: \(mainImageView.frame)")
     }
     
     @objc func panTrack(sender: UIPanGestureRecognizer) {
@@ -123,6 +137,21 @@ class PhotoPresenterViewController: UIViewController {
             //1. Делаем левый/правый аниматор, если аниматор отсутствует
             //2. Двигаем анимацию в соответствии с перемещением.
             //Движение нулевое: если аниматор ненулевой - завершаем его и удаляем
+            if isZooming {
+                let cetnterPointsRectScale = currentImageScale - 1
+                var dx = rect.width * cetnterPointsRectScale
+                var dy = rect.height * cetnterPointsRectScale
+                if cetnterPointsRectScale > 1 {
+                    dx = -dx
+                    dy = -dy
+                }
+                let centerPoinsRect = rect.insetBy(dx: dx / 2, dy: dy / 2)
+                let newCenter = CGPoint(x: mainImageView.center.x + translation.x, y: mainImageView.center.y + translation.y)
+                if centerPoinsRect.contains(newCenter) {
+                    mainImageView.center = newCenter
+                }
+            }
+            
             if let interactiveTransition = interactiveTransition,
                interactiveTransition.isStarted {
                 let progress = max(0, translation.y / view.frame.height)
@@ -201,7 +230,9 @@ class PhotoPresenterViewController: UIViewController {
                         propertyAnimator.addCompletion { [self] _ in
                             currentImage += direction
                             swap(&mainImageView, &secondImageView)
+                            rect = mainImageView.frame
                             secondImageView.removeFromSuperview()
+                            isZooming = false
                         }
                         propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                     } else {
@@ -224,18 +255,15 @@ class PhotoPresenterViewController: UIViewController {
     
     func makeLeftAnimator() {
         animatorKind = .left
-        /*for subview in view.subviews {
-         if subview != mainImageView {
-             subview.removeFromSuperview()
-            }
-        }*/
         secondImageView = UIImageView()
-        secondImageView.frame = mainImageView.frame
-        secondImageView.bounds = mainImageView.bounds
-        secondImageView.contentMode = .scaleAspectFill
+        secondImageView.frame = rect
+        secondImageView.bounds = rect
+        secondImageView.contentMode = .scaleAspectFit
         secondImageView.clipsToBounds = true
         if currentImage <= images.count - 2 {
             secondImageView.image = images[currentImage + 1].image
+            secondImageView.frame = calculateRect(image: images[currentImage + 1].image)
+            secondImageView.bounds = calculateRect(image: images[currentImage + 1].image)
         }
         let keyframes = makeKeyframes()
         secondImageView.layer.transform = keyframes[0].5
@@ -259,19 +287,17 @@ class PhotoPresenterViewController: UIViewController {
     
     func makeRightAnimator() {
         animatorKind = .right
-        for subview in view.subviews {
-            if subview != mainImageView {
-                subview.removeFromSuperview() }
-        }
         secondImageView = UIImageView()
-        secondImageView.frame = mainImageView.frame
-        secondImageView.bounds = mainImageView.bounds
-        secondImageView.contentMode = .scaleAspectFill
+        secondImageView.frame = rect
+        secondImageView.bounds = rect
+        secondImageView.contentMode = .scaleAspectFit
         secondImageView.clipsToBounds = true
         //Если это первая картинка, то secondImageView будет пустой
         //Нельзя допусть завершение аниматора с currentImage == 0
         if currentImage > 0 {
             secondImageView.image = images[currentImage-1].image
+            secondImageView.frame = calculateRect(image: images[currentImage-1].image)
+            secondImageView.bounds = calculateRect(image: images[currentImage-1].image)
         }
         let keyframes = makeKeyframes()
         secondImageView.layer.transform = keyframes[1].5
@@ -292,29 +318,113 @@ class PhotoPresenterViewController: UIViewController {
         }
     }
     
-    @objc func tapAction() {
-        //navigationController?.popViewController(animated: false)
+    @objc func doubleTapAction(sender: UITapGestureRecognizer) {
+        print("mainImageView frame: \(mainImageView.frame)")
+        print("View frame: \(view.frame)")
+        print("rect is \(rect)")
+        let tapPoint = sender.location(in: view)
+        print("tapPoint is \(tapPoint)")
+        guard mainImageView.frame.contains(tapPoint)
+        else {
+            print("tap not in mainImageView")
+            print("tap point in view: \(sender.location(in: view))")
+            print("tap point in mainImageView: \(sender.location(in: mainImageView))")
+            return
+        }
+        print("double tap")
+        print("tap point in view: \(sender.location(in: view))")
+        print("tap point in mainImageView: \(sender.location(in: mainImageView))")
+        print("mainImageView frame: \(mainImageView.frame)")
+        if isZooming {
+            print(mainImageView.image?.scale)
+            UIView.animate(withDuration: 0.2) {
+                self.mainImageView.frame = self.rect
+            }
+            isZooming = false
+        } else {
+            print(mainImageView.image?.scale)
+            var side = 2 * min(view.frame.height, view.frame.width)
+            var scale = min((mainImageView.image?.size.height)!, (mainImageView.image?.size.width)!) / side
+            
+            //let doubleFrame = CGRect(x: rect.minX, y: rect.minY, width: (mainImageView.image?.size.width)! / scale, height: (mainImageView.image?.size.height)! / scale)
+            var doubleFrame = mainImageView.frame.insetBy(dx: -mainImageView.frame.width / 2, dy: -mainImageView.frame.height / 2)
+            var dx = mainImageView.center.x - tapPoint.x
+            var dy = mainImageView.center.y - tapPoint.y
+            if dx > mainImageView.frame.width / 2 {
+                dx = mainImageView.frame.width / 2
+            }
+            if dy > mainImageView.frame.height / 2 {
+                dy = mainImageView.frame.height / 2
+            }
+            doubleFrame = doubleFrame.offsetBy(dx: dx, dy: dy)
+            print("doubleFrame is \(doubleFrame)")
+            UIView.animate(withDuration: 0.2) {
+                self.mainImageView.frame = doubleFrame
+            }
+            isZooming = true
+        }
+    }
+    
+    @objc func pinchAction(sender: UIPinchGestureRecognizer) {
+        if sender.state == .changed || sender.state == .ended {
+            /*let currentScale = mainImageView.frame.size.width / mainImageView.bounds.size.width
+            print("mainImageView.frame.size.width: \(mainImageView.frame.size.width)")
+            print("mainImageView.bounds.size.width: \(mainImageView.bounds.size.width)")
+            isZooming = true
+            var newScale = currentScale * sender.scale
+            if newScale < 1 {
+                newScale = 1
+            }
+            if newScale > 6 {
+                newScale = 6
+            }
+            let transform = CGAffineTransform(scaleX: newScale, y: newScale)
+            mainImageView.transform = transform
+            sender.scale = 1*/
+            print(sender.scale)
+            currentImageScale = sender.scale
+            if currentImageScale < 1 {
+                currentImageScale = 1
+            }
+            if currentImageScale > 6 {
+                currentImageScale = 6
+            }
+            
+            let dx = mainImageView.frame.width * (currentImageScale - 1)
+            let dy = mainImageView.frame.height * (currentImageScale - 1)
+            var frame1 = mainImageView.frame
+            //frame1.insetBy(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>)
+            mainImageView.frame = mainImageView.frame.insetBy(dx: -dx, dy: -dy)
+            sender.scale = 1
+            isZooming = true
+        }
+    }
+    
+    @objc func tapAction(sender: UIGestureRecognizer) {
+        //print(sender.n)
+        print("Image size: \(mainImageView.image?.size)")
         if let navigationController = navigationController,
+           let tabBarController = tabBarController,
            navigationController.navigationBar.isHidden {
-            let y = navigationController.navigationBar.frame.minY + navigationController.navigationBar.frame.height
-            let height = (tabBarController?.tabBar.frame.minY)! - y
-            rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
+            //let y = navigationController.navigationBar.frame.maxY
+            //let height = tabBarController.tabBar.frame.minY - y
+            //rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
             UIView.animate(withDuration: 0.2, animations: {
                 [self] in
                     navigationController.navigationBar.isOpaque = false
-                    tabBarController?.tabBar.isOpaque = false
-                    mainImageView.frame = rect
-            }, completion: { [self] _ in
+                    tabBarController.tabBar.isOpaque = false
+                    //mainImageView.frame = rect
+            }, completion: { _ in
                 navigationController.navigationBar.isHidden = false
-                tabBarController?.tabBar.isHidden = false
+                tabBarController.tabBar.isHidden = false
             })
         } else {
-            rect = view.frame
+            //rect = view.frame
             UIView.animate(withDuration: 0.2, animations: {
                 [self] in
                 navigationController?.navigationBar.isOpaque = true
                 tabBarController?.tabBar.isOpaque = true
-                mainImageView.frame = rect
+                //mainImageView.frame = rect
             }, completion: { [self] _ in
                 navigationController?.navigationBar.isHidden = true
                 tabBarController?.tabBar.isHidden = true
@@ -363,10 +473,42 @@ class PhotoPresenterViewController: UIViewController {
         }
     }
     
+    private func calculateRect(image: UIImage) -> CGRect {
+        var y = CGFloat.zero
+        var height = view.frame.height
+        if let navigationController = navigationController,
+           let tabBarController = tabBarController {
+            y = navigationController.navigationBar.frame.minY + navigationController.navigationBar.frame.height
+            height = tabBarController.tabBar.frame.minY - y
+        }
+        let imageScale = image.size.width / image.size.height
+        let screenScale = view.frame.width / height
+        if imageScale > screenScale {
+            let scale = image.size.width / view.frame.width
+            let dy = image.size.height / scale
+            let rect = view.frame.insetBy(dx: 0, dy: (view.frame.height - dy) / 2)
+            return rect
+        } else {
+            let scale = image.size.height / height
+            let dx = image.size.width / scale
+            let rect = view.frame.insetBy(dx: (view.frame.width - dx) / 2, dy: y / 2)
+            return rect
+        }
+    }
+    
 }
+
 
 extension PhotoPresenterViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.name == "oneTap" && otherGestureRecognizer.name == "doubleTap" {
+            return true
+        } else {
+            return false
+        }
     }
 }
