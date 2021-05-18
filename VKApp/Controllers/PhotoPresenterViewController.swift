@@ -41,6 +41,13 @@ class PhotoPresenterViewController: UIViewController {
     weak var interactiveTransition: PercentDrivenInteractiveTransition?
     var isZooming = false
     var currentImageScale : CGFloat = 1.0
+    var lastTransform = CGAffineTransform()
+    
+    private var isHidedBars = false {
+        didSet {
+            isHidedBars ? hideBars() : showBars()
+        }
+    }
     
 
     
@@ -107,7 +114,8 @@ class PhotoPresenterViewController: UIViewController {
                 propertyAnimator = nil
             }
             //Если перемещение началось по оси y, а по x нулевое - это смахивание и надо запустить pop
-            if translation.y > 0 && translation.x == 0 {
+            if translation.y > 0 && translation.x == 0 && mainImageView
+                .frame.minY >= 0 {
                 
                 interactiveTransition?.isStarted = true
                 navigationController?.popViewController(animated: true)
@@ -119,6 +127,7 @@ class PhotoPresenterViewController: UIViewController {
                     targetFrame = destination.collectionView.layoutAttributesForItem(at: index)?.frame ?? CGRect.zero
                     let contentOffset = destination.collectionView.contentOffset
                     targetFrame.origin = CGPoint(x: targetFrame.minX, y: targetFrame.minY - contentOffset.y)
+                    lastTransform = mainImageView.transform
                 }
             }
         case .cancelled:
@@ -138,17 +147,21 @@ class PhotoPresenterViewController: UIViewController {
             //2. Двигаем анимацию в соответствии с перемещением.
             //Движение нулевое: если аниматор ненулевой - завершаем его и удаляем
             if isZooming {
-                let cetnterPointsRectScale = currentImageScale - 1
-                var dx = rect.width * cetnterPointsRectScale
-                var dy = rect.height * cetnterPointsRectScale
-                if cetnterPointsRectScale > 1 {
-                    dx = -dx
-                    dy = -dy
-                }
-                let centerPoinsRect = rect.insetBy(dx: dx / 2, dy: dy / 2)
-                let newCenter = CGPoint(x: mainImageView.center.x + translation.x, y: mainImageView.center.y + translation.y)
-                if centerPoinsRect.contains(newCenter) {
+                let centerPointsRectScale = currentImageScale - 1
+                let dx = rect.width * (1 - centerPointsRectScale)
+                let dy = rect.height * (1 - centerPointsRectScale)
+                
+                let centerPointsRect = rect.insetBy(dx: dx / 2, dy: dy / 2)
+                
+                let newCenter = CGPoint(x: centerX + translation.x,
+                                        y: centerY + translation.y)
+                print("dx=\(dx) dy=\(dy) centerPointsRectScale: \(centerPointsRectScale) centerPointsRect: \(centerPointsRect) newCenter: \(newCenter)")
+                if centerPointsRect.contains(newCenter) {
+                    print("cpr: minX: \(centerPointsRect.minX), maxX: \(centerPointsRect.maxX), minY: \(centerPointsRect.minY), maxY: \(centerPointsRect.maxY)")
                     mainImageView.center = newCenter
+                    break
+                } else if newCenter.y >= centerPointsRect.maxY {
+                    //transitionable = true
                 }
             }
             
@@ -209,12 +222,16 @@ class PhotoPresenterViewController: UIViewController {
                         mainImageView.frame = targetFrame
                     }, completion: { _ in interactiveTransition.finish() }) }():
                     UIView.animate(withDuration: 0.2, animations: { [self] in
-                        mainImageView.center = CGPoint(x: centerX, y: centerY)
-                        mainImageView.frame = rect
+                        //mainImageView.center = view.center
+                        //mainImageView.frame = rect
+                        mainImageView.transform = lastTransform
+                        mainImageView.center = view.center
                     }, completion: { _ in interactiveTransition.cancel()
                     })
                 
             } else {
+                centerX = mainImageView.center.x
+                centerY = mainImageView.center.y
                 let noReturnSpeed = maxPanDistance
                 guard let propertyAnimator = propertyAnimator else { break }
                 let x = translation.x
@@ -319,96 +336,117 @@ class PhotoPresenterViewController: UIViewController {
     }
     
     @objc func doubleTapAction(sender: UITapGestureRecognizer) {
-        print("mainImageView frame: \(mainImageView.frame)")
-        print("View frame: \(view.frame)")
-        print("rect is \(rect)")
+
         let tapPoint = sender.location(in: view)
-        print("tapPoint is \(tapPoint)")
+
         guard mainImageView.frame.contains(tapPoint)
-        else {
-            print("tap not in mainImageView")
-            print("tap point in view: \(sender.location(in: view))")
-            print("tap point in mainImageView: \(sender.location(in: mainImageView))")
-            return
-        }
-        print("double tap")
-        print("tap point in view: \(sender.location(in: view))")
-        print("tap point in mainImageView: \(sender.location(in: mainImageView))")
-        print("mainImageView frame: \(mainImageView.frame)")
+        else { return }
+
         if isZooming {
-            print(mainImageView.image?.scale)
-            UIView.animate(withDuration: 0.2) {
-                self.mainImageView.frame = self.rect
+            UIView.animate(withDuration: 0.2) { [self] in
+                mainImageView.transform = .identity
+                mainImageView.center = view.center
             }
+            currentImageScale = 1
             isZooming = false
+            showBars()
         } else {
-            print(mainImageView.image?.scale)
-            var side = 2 * min(view.frame.height, view.frame.width)
-            var scale = min((mainImageView.image?.size.height)!, (mainImageView.image?.size.width)!) / side
-            
-            //let doubleFrame = CGRect(x: rect.minX, y: rect.minY, width: (mainImageView.image?.size.width)! / scale, height: (mainImageView.image?.size.height)! / scale)
-            var doubleFrame = mainImageView.frame.insetBy(dx: -mainImageView.frame.width / 2, dy: -mainImageView.frame.height / 2)
-            var dx = mainImageView.center.x - tapPoint.x
-            var dy = mainImageView.center.y - tapPoint.y
-            if dx > mainImageView.frame.width / 2 {
-                dx = mainImageView.frame.width / 2
-            }
-            if dy > mainImageView.frame.height / 2 {
-                dy = mainImageView.frame.height / 2
-            }
-            doubleFrame = doubleFrame.offsetBy(dx: dx, dy: dy)
-            print("doubleFrame is \(doubleFrame)")
-            UIView.animate(withDuration: 0.2) {
-                self.mainImageView.frame = doubleFrame
+            currentImageScale = 2
+            let transform = CGAffineTransform(scaleX: currentImageScale, y: currentImageScale)
+            let dx = mainImageView.center.x - tapPoint.x
+            let dy = mainImageView.center.y - tapPoint.y
+
+            centerX = mainImageView.center.x + dx
+            centerY = mainImageView.center.y + dy
+            let newCenter = CGPoint(x: centerX + dx, y: centerY + dy)
+            UIView.animate(withDuration: 0.2) { [self] in
+                //self.mainImageView.frame = doubleFrame
+                mainImageView.transform = transform
+                mainImageView.center = newCenter
             }
             isZooming = true
+            hideBars()
         }
     }
     
     @objc func pinchAction(sender: UIPinchGestureRecognizer) {
-        if sender.state == .changed || sender.state == .ended {
-            /*let currentScale = mainImageView.frame.size.width / mainImageView.bounds.size.width
-            print("mainImageView.frame.size.width: \(mainImageView.frame.size.width)")
-            print("mainImageView.bounds.size.width: \(mainImageView.bounds.size.width)")
-            isZooming = true
-            var newScale = currentScale * sender.scale
-            if newScale < 1 {
-                newScale = 1
+        switch sender.state {
+        case .began:
+            centerX = mainImageView.center.x
+            centerY = mainImageView.center.y
+            hideBars()
+        case .changed:
+            if sender.numberOfTouches == 2 {
+                var distanceX = sender.location(in: mainImageView).x - centerX
+                var distanceY = sender.location(in: mainImageView).y - centerY
+                print("location in change: \(sender.location(in: view))")
+                print("number of touches: \(sender.numberOfTouches)")
+                
+                //print("distanceX = \(distanceX) distanceY = \(distanceY)")
+                isZooming = true
+                currentImageScale = currentImageScale * sender.scale
+                print("newScale is \(currentImageScale)")
+                if currentImageScale < 1 {
+                    currentImageScale = 1
+                }
+                if currentImageScale > 6 {
+                    currentImageScale = 6
+                }
+                var newDistanceX = distanceX * currentImageScale
+                var newDistanceY = distanceY * currentImageScale
+                var dx = newDistanceX - distanceX
+                var dy = newDistanceY - distanceY
+                let transform = CGAffineTransform(scaleX: currentImageScale, y: currentImageScale)
+                mainImageView.transform = transform
+                print("distanceX = \(distanceX) distanceY = \(distanceY) ")
+                mainImageView.center.x = centerX + dx
+                mainImageView.center.y = centerY + dy
+                sender.scale = 1
+                
             }
-            if newScale > 6 {
-                newScale = 6
+        case .ended:
+            print("location in ended: \(sender.location(in: view))\n\n")
+            print("number of touches: \(sender.numberOfTouches)")
+            if mainImageView.frame.height < view.frame.height {
+                UIView.animate(withDuration: 0.2) { [self] in
+                    mainImageView.center.y = view.center.y
+                }
             }
-            let transform = CGAffineTransform(scaleX: newScale, y: newScale)
-            mainImageView.transform = transform
-            sender.scale = 1*/
-            print(sender.scale)
-            currentImageScale = sender.scale
-            if currentImageScale < 1 {
-                currentImageScale = 1
+            if mainImageView.frame.width < view.frame.width {
+                UIView.animate(withDuration: 0.2) { [self] in
+                    mainImageView.center.x = view.center.x
+                }
             }
-            if currentImageScale > 6 {
-                currentImageScale = 6
-            }
-            
-            let dx = mainImageView.frame.width * (currentImageScale - 1)
-            let dy = mainImageView.frame.height * (currentImageScale - 1)
-            var frame1 = mainImageView.frame
-            //frame1.insetBy(dx: <#T##CGFloat#>, dy: <#T##CGFloat#>)
-            mainImageView.frame = mainImageView.frame.insetBy(dx: -dx, dy: -dy)
-            sender.scale = 1
-            isZooming = true
+        default:
+            break
         }
     }
     
-    @objc func tapAction(sender: UIGestureRecognizer) {
-        //print(sender.n)
-        print("Image size: \(mainImageView.image?.size)")
+    @objc func tapAction() {
+
+        isHidedBars.toggle()
+        
+    }
+    
+    private func hideBars() {
         if let navigationController = navigationController,
-           let tabBarController = tabBarController,
-           navigationController.navigationBar.isHidden {
-            //let y = navigationController.navigationBar.frame.maxY
-            //let height = tabBarController.tabBar.frame.minY - y
-            //rect = CGRect(x: 0, y: y, width: view.frame.width, height: height)
+           let tabBarController = tabBarController {
+    
+            UIView.animate(withDuration: 0.2, animations: {
+                [self] in
+                    navigationController.navigationBar.isOpaque = true
+                    tabBarController.tabBar.isOpaque = true
+                    //mainImageView.frame = rect
+            }, completion: { _ in
+                navigationController.navigationBar.isHidden = true
+                tabBarController.tabBar.isHidden = true
+            })
+        }
+    }
+    
+    private func showBars() {
+        if let navigationController = navigationController,
+           let tabBarController = tabBarController {
             UIView.animate(withDuration: 0.2, animations: {
                 [self] in
                     navigationController.navigationBar.isOpaque = false
@@ -418,18 +456,6 @@ class PhotoPresenterViewController: UIViewController {
                 navigationController.navigationBar.isHidden = false
                 tabBarController.tabBar.isHidden = false
             })
-        } else {
-            //rect = view.frame
-            UIView.animate(withDuration: 0.2, animations: {
-                [self] in
-                navigationController?.navigationBar.isOpaque = true
-                tabBarController?.tabBar.isOpaque = true
-                //mainImageView.frame = rect
-            }, completion: { [self] _ in
-                navigationController?.navigationBar.isHidden = true
-                tabBarController?.tabBar.isHidden = true
-            })
-            
         }
     }
     
